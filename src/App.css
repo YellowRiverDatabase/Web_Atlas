@@ -1,0 +1,16 @@
+button{
+  background-color: lightgrey;
+  border: solid 1px darkgrey;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: rgb(233, 228, 228);
+}
+
+button:active{
+  background-color: rgb(233, 228, 228);
+  border: solid black 2px;
+}
