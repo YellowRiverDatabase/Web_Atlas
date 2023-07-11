@@ -1,5 +1,8 @@
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
+import { isEntryModalState } from "./globalState";
 export function Header() {
+  const isEntryModal = useRecoilValue(isEntryModalState);
   const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
@@ -11,8 +14,12 @@ export function Header() {
     border-bottom: 1px solid grey;
   `;
   return (
-    <StyledWrapper>
-      <h1>Yellow River Database Web Atlas</h1>
-    </StyledWrapper>
+    <>
+      {!isEntryModal ? (
+        <StyledWrapper>
+          <h1>Yellow River Database Web Atlas</h1>
+        </StyledWrapper>
+      ) : null}
+    </>
   );
 }
