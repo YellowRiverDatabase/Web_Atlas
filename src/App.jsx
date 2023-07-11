@@ -1,12 +1,11 @@
+import { EntryModal } from "./components/site/EntryModal";
 import { Header } from "./components/site/Header";
-import { RecoilRoot } from "recoil";
 
 function App() {
   return (
     <>
-      <RecoilRoot>
-        <Header />
-      </RecoilRoot>
+      <Header />
+      <EntryModal />
     </>
   );
 }
