@@ -24,13 +24,13 @@ export function EntryModal() {
 
   return (
     <>
-      {isEntryModal && (
+      {isEntryModal ? (
         <ModalWrapper>
           <ModalDiv>
             <h1>Yellow River Database Web Atlas</h1>
           </ModalDiv>
         </ModalWrapper>
-      )}
+      ) : null}
     </>
   );
 }
