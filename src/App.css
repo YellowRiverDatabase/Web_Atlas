@@ -1,8 +1,12 @@
 button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: lightgrey;
   border: solid 1px darkgrey;
   border-radius: 5px;
   padding: 5px;
+  margin: 0 20px;
   cursor: pointer;
 }
 
