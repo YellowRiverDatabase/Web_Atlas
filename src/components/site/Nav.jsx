@@ -1,5 +1,14 @@
+import { useRecoilState } from "recoil";
 import { BtnHamburger } from "./BtnHamburger";
+import { NavMenu } from "./NavMenu";
+import { isNavMenuState } from "./globalState";
 
 export function Nav() {
-  return <BtnHamburger />;
+  const [isNavMenu, setIsNavMenu] = useRecoilState(isNavMenuState);
+  return (
+    <>
+      <BtnHamburger onClick={() => setIsNavMenu(!isNavMenu)} />
+      {isNavMenu && <NavMenu />}
+    </>
+  );
 }
