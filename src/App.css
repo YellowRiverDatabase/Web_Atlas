@@ -16,5 +16,10 @@ button:hover{
 
 button:active{
   background-color: rgb(233, 228, 228);
-  border: solid black 2px;
+  border: solid black 1px;
+}
+
+a{
+  text-decoration: none;
+  color: white;
 }
