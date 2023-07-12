@@ -1,14 +1,7 @@
-import { EntryModal } from "./components/site/EntryModal";
-import { Header } from "./components/site/Header";
-import { Main } from "./components/site/Main";
+import { Router } from "./router/Router";
 
 function App() {
-  return (
-    <Main>
-      <Header />
-      <EntryModal />
-    </Main>
-  );
+  return <Router />;
 }
 
 export default App;
