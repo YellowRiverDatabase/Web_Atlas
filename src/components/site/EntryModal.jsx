@@ -1,10 +1,22 @@
 import { useRecoilState } from "recoil";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { isEntryModalState } from "./globalState";
 import "../../App.css";
+import { useEffect, useState } from "react";
 
 export function EntryModal() {
   const [isEntryModal, setIsEntryModal] = useRecoilState(isEntryModalState);
+  const [windowWidth, setWindowWidth] = useState();
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
 
   const closeModal = () => {
     setIsEntryModal(false);
@@ -23,22 +35,34 @@ export function EntryModal() {
     z-index: 100;
     background-color: rgba(0, 0, 0, 0.5);
   `;
+
   const ModalDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 500px;
     justify-content: center;
     background-color: white;
     border: 1px solid grey;
     border-radius: 10px;
     padding: 10px;
     z-index: 200;
+
+    @media (max-width: 500px) {
+      width: 100%;
+      height: 100%;
+      border: none;
+      justify-content: space-between;
+    }
+
+    @media (min-width: 500px) {
+      width: 500px;
+    }
   `;
 
   const Title = styled.h2`
     text-align: center;
     color: black;
+    margin: 0 20px;
   `;
 
   const Section = styled.section`
@@ -56,6 +80,7 @@ export function EntryModal() {
 
   const BlackP = styled.p`
     color: black;
+    margin: 20px;
   `;
 
   return (
@@ -74,7 +99,9 @@ export function EntryModal() {
                 description.
               </BlackP>
             </Section>
-            <ModalButton onClick={closeModal}>Close</ModalButton>
+            <ModalButton onClick={closeModal}>
+              {windowWidth > 500 ? "Close" : "Go to Web Atlas"}
+            </ModalButton>
           </ModalDiv>
         </ModalWrapper>
       ) : null}
