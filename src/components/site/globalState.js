@@ -5,13 +5,30 @@ export const viewState = atom({
   default: {
     longitude: 104.195,
     latitude: 35.862,
-    zoom: 13,
+    zoom: 4,
     pitch: 0,
     bearing: 0,
   },
 });
 
+// state for geojson
+export const oceansState = atom({
+  key: "oceansState",
+  default: {},
+});
+
+// Menus and Modals
 export const isEntryModalState = atom({
   key: "isEntryModalState",
   default: true,
+});
+
+export const isLayersMenuState = atom({
+  key: "isLayersMenuState",
+  default: false,
+});
+
+export const isNavMenuState = atom({
+  key: "isNavMenuState",
+  default: false,
 });
