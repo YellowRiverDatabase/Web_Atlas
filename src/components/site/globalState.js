@@ -32,3 +32,13 @@ export const isNavMenuState = atom({
   key: "isNavMenuState",
   default: false,
 });
+
+export const dynastiesState = atom({
+  key: "dynastiesState",
+  default: {},
+});
+
+export const erasState = atom({
+  key: "erasState",
+  default: {},
+});
