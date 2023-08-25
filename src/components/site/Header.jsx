@@ -1,29 +1,28 @@
 import { useRecoilValue } from "recoil";
-import styled from "styled-components";
 import { isEntryModalState } from "./globalState";
 import { Nav } from "./Nav";
 import { Layers } from "./Layers";
 export function Header() {
   const isEntryModal = useRecoilValue(isEntryModalState);
-  const StyledWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 10%;
-    min-height: 50px;
-    width: 100%;
-    background-color: #242424;
-    border-bottom: 1px solid grey;
-    z-index: 100;
-  `;
+  const styledWrapperStyle = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: "10%",
+    minHeight: "50px",
+    width: "100%",
+    backgroundColor: "#242424",
+    borderBottom: "1px solid grey",
+    zIndex: 100,
+  };
   return (
     <>
       {!isEntryModal ? (
-        <StyledWrapper>
+        <div style={styledWrapperStyle}>
           <Nav />
           <h1>Yellow River Database Web Atlas</h1>
           <Layers />
-        </StyledWrapper>
+        </div>
       ) : null}
     </>
   );
