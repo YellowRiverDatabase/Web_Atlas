@@ -25,8 +25,7 @@ export function NavMenu() {
   const menuItems = menuItemsArray.filter(
     (item) => item.path !== location.pathname
   );
-
-  const Menu = styled.div`
+  const StyledMenu = styled.div`
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -35,35 +34,31 @@ export function NavMenu() {
     color: lightgrey;
     background-color: #242424;
     z-index: 100;
+    gap: 3em;
+    top: 10.1%;
+    right: 0;
+    width: calc(250px - 1px);
+    height: calc(90vh - 1px);
+    padding: 50px 25px;
 
     @media (max-width: 500px) {
-      top: 10.1%;
-      left: 0;
-      width: 100vw;
-      height: 90vh;
-    }
-
-    @media (min-width: 501px) {
-      top: 10.1%;
-      left: 0;
-      width: 250px;
-      height: 90vh;
-      border-left: solid 1px grey;
-      border-right: solid 1px grey;
+      width: calc(100vw - 1px);
+      height: calc(90vh - 1px);
     }
   `;
 
-  const MenuItems = styled.nav`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    height: 50%;
-  `;
+  const menuItemsStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-around",
+    height: "50%",
+    gap: "10px",
+  };
 
   return (
-    <Menu>
-      <MenuItems>
+    <div className="menu-left">
+      <nav style={menuItemsStyle}>
         {menuItems.map((item, i) => (
           <Link
             key={`${item.name}-${i}`}
@@ -73,8 +68,15 @@ export function NavMenu() {
             {item.name}
           </Link>
         ))}
-      </MenuItems>
-      <button>Close</button>
-    </Menu>
+        <a
+          href="https://github.com/orgs/YellowRiverDatabase/repositories"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub Data
+        </a>
+      </nav>
+      <button onClick={() => setIsNavMenu(false)}>Close</button>
+    </div>
   );
 }
