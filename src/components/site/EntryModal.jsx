@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { isEntryModalState } from "./globalState";
 import "../../App.css";
 import { useEffect, useState } from "react";
+import { useRef } from "react";
 
 export function EntryModal() {
   const [isEntryModal, setIsEntryModal] = useRecoilState(isEntryModalState);
@@ -18,92 +19,99 @@ export function EntryModal() {
     };
   });
 
+  const modalRef = useRef();
+
   const closeModal = () => {
     setIsEntryModal(false);
   };
 
-  const ModalWrapper = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100vw;
-    z-index: 100;
-    background-color: rgba(0, 0, 0, 0.5);
-  `;
+  const ModalWrapper = {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100vh",
+    width: "100vw",
+    zIndex: "100",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  };
 
-  const ModalDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    border: 1px solid grey;
-    border-radius: 10px;
-    padding: 10px;
-    z-index: 200;
+  const containerStyle = {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    border: "1px solid grey",
+    borderRadius: "10px",
+    padding: "10px",
+    zIndex: 200,
+  };
 
-    @media (max-width: 500px) {
-      width: 100%;
-      height: 100%;
-      border: none;
-      justify-content: space-between;
-    }
+  const mobileStyle = {
+    width: "100%",
+    height: "100%",
+    border: "none",
+    justifyContent: "space-between",
+  };
 
-    @media (min-width: 500px) {
-      width: 500px;
-    }
-  `;
+  const desktopStyle = {
+    width: "500px",
+  };
 
-  const Title = styled.h2`
-    text-align: center;
-    color: black;
-    margin: 0 20px;
-  `;
+  const titleStyle = {
+    textAlign: "center",
+    color: "black",
+    margin: "0 20px",
+  };
 
-  const Section = styled.section`
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    width: 100%;
-    margin-bottom: 20px;
-  `;
+  const sectionStyle = {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "start",
+    width: "100%",
+    marginBottom: "20px",
+  };
 
-  const ModalButton = styled.button`
-    width: 20%;
-    min-width: 75px;
-  `;
+  const modalButtonStyle = {
+    width: "20%",
+    minWidth: "75px",
+  };
 
-  const BlackP = styled.p`
-    color: black;
-    margin: 20px;
-  `;
+  const blackPStyle = {
+    color: "black",
+    margin: "20px",
+  };
 
   return (
     <>
       {isEntryModal ? (
-        <ModalWrapper>
-          <ModalDiv>
-            <Section>
-              <Title>
+        <div style={ModalWrapper}>
+          <div
+            style={{
+              ...containerStyle,
+              ...(window.innerWidth <= 500 ? mobileStyle : desktopStyle),
+            }}
+          >
+            <section style={sectionStyle}>
+              <h2 style={titleStyle}>
                 Welcome to the Web Atlas
                 <br />
                 for the Yellow River Database
-              </Title>
-              <BlackP>
+              </h2>
+              <p style={blackPStyle}>
                 There will be more content here as we write a simple
                 description.
-              </BlackP>
-            </Section>
-            <ModalButton onClick={closeModal}>
+              </p>
+            </section>
+            <button style={modalButtonStyle} onClick={closeModal}>
               {windowWidth > 500 ? "Close" : "Go to Web Atlas"}
-            </ModalButton>
-          </ModalDiv>
-        </ModalWrapper>
+            </button>
+          </div>
+        </div>
       ) : null}
     </>
   );
