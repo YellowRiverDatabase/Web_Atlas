@@ -17,11 +17,8 @@ export default function TimeSlider() {
 
   return (
     <div className="sliderBox">
-      <div className="valuesBox">
-        <div className="values-text">{value[0]}</div>
-        <div className="values-text">{value[1]}</div>
-      </div>
       <div className="slider-wrapper">
+        <div className="values-text">{value[0]}</div>
         <Slider
           className="sliderMUI"
           value={value}
@@ -32,6 +29,7 @@ export default function TimeSlider() {
           min={rangeMin}
           max={rangeMax}
         />
+        <div className="values-text">{value[1]}</div>
       </div>
     </div>
   );
