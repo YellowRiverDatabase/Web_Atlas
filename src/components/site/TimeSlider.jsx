@@ -1,11 +1,14 @@
 import { Slider } from "@mui/base/Slider";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
 import styled, { css } from "styled-components";
+import { yearsState } from "./globalState";
 
 export default function TimeSlider() {
-  const [value, setValue] = useState([0, 100]);
-  const [rangeMin, setRangeMin] = useState(0);
-  const [rangeMax, setRangeMax] = useState(100);
+  const [value, setValue] = useState([-2070, 1916]);
+  const [rangeMin, setRangeMin] = useState(-2070);
+  const [rangeMax, setRangeMax] = useState(1916);
+  const [years, setYears] = useRecoilState(yearsState);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
