@@ -89,7 +89,7 @@ Styles for the MUI Slider
   cursor: grab;
   /* transform: translate(5%, 0); */
   touch-action: none;
-  margin-top: 10px;
+  margin-top: 11px;
 }
 
 .sliderBox {
@@ -102,7 +102,7 @@ Styles for the MUI Slider
   left: 0;
   width: 100%;
   height: 35px;
-  z-index: 10;
+  z-index: 999;
   /* transform: translate(calc(25px + 7%), 0); */
   border-radius: 10pt;
   /* margin: 15px; */
