@@ -20,7 +20,7 @@ export function Header() {
       {!isEntryModal ? (
         <div style={styledWrapperStyle}>
           <Nav />
-          <h1>Yellow River Database Web Atlas</h1>
+          <h1>Tracks of Yu: A Digital Atlas of Yellow River History</h1>
           <Layers />
         </div>
       ) : null}
