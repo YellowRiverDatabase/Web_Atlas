@@ -6,11 +6,14 @@ import { Main } from "../components/site/Main";
 import TimeSlider from "../components/site/TimeSlider";
 export function Home() {
   return (
-    <Main>
-      <Header />
-      <BaseMap />
-      <EntryModal />
+    <>
+      <Main>
+        <Header />
+
+        <BaseMap />
+        <EntryModal />
+      </Main>
       <TimeSlider />
-    </Main>
+    </>
   );
 }
