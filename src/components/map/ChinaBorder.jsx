@@ -1,15 +1,17 @@
 import { GeoJsonLayer } from "@deck.gl/layers";
 import { memo, useMemo } from "react";
-import { useRecoilState } from "recoil";
-import { ChinaBorderState } from "../site/globalState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { ChinaBorderState, visibilityState } from "../site/globalState";
 import { useEffect } from "react";
 
-export function ChinaBorderLayer(visibility) {
+export function ChinaBorderLayer() {
   const [chinaBorder, setChinaBorder] = useRecoilState(ChinaBorderState);
+  const visibility = useRecoilValue(visibilityState);
   useEffect(() => {
     if (Object.keys(chinaBorder).length === 0) {
+      console.log("fetching");
       const fetchData = async () => {
-        const res = fetch(
+        const res = await fetch(
           "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/cultural_data/china-borders.geojson"
         );
         const data = await res.json();
@@ -23,14 +25,14 @@ export function ChinaBorderLayer(visibility) {
       id: "china-border",
       data: chinaBorder,
       pickable: false,
-      visible: visibility,
-      stroked: false,
+      visible: visibility["China Borders"],
+      stroked: true,
       extruded: false,
       lineWidthMinPixels: 1,
       getFillColor: [39, 106, 245, 44],
       getLineWidth: 0,
     });
-  }, [visibility, ChinaBorderState]);
+  }, [visibility, ChinaBorderState, chinaBorder]);
 
   return oceansObject;
 }

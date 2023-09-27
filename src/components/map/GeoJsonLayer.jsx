@@ -7,8 +7,16 @@ import {
 } from "../site/globalState";
 import { useEffect } from "react";
 import { log } from "deck.gl";
+import { useState } from "react";
 
-export function GeoJsonLayer({ visibilityName, data, setData, url, color }) {
+export function GeoJsonLayer({
+  visibilityName,
+  data,
+  setData,
+  url,
+  color,
+  popup,
+}) {
   const visibility = useRecoilValue(visibilityState);
   const dynasties = useRecoilValue(dynastiesState);
   const eras = useRecoilValue(erasState);
@@ -17,6 +25,7 @@ export function GeoJsonLayer({ visibilityName, data, setData, url, color }) {
       const fetchData = async () => {
         const res = await fetch(url);
         const data = await res.json();
+        console.log(data);
         if (data.features.time) {
           data.feature.start_date = dynasties[data.feature.time][0];
           data.feature.end_date = dynasties[data.feature.time][1];
@@ -41,13 +50,18 @@ export function GeoJsonLayer({ visibilityName, data, setData, url, color }) {
                 <Layer
                   id={visibilityName + i}
                   type="fill"
+                  onClick={() => {
+                    console.log("clicked");
+                  }}
                   source={visibilityName + i}
                   paint={{
                     "fill-color": color || "lightblue",
                     "fill-opacity": 0.4,
                     "fill-outline-color": "black",
                   }}
-                />
+                >
+                  {/* {popup && popupState.} */}
+                </Layer>
               </Source>
             );
           })

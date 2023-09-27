@@ -52,6 +52,7 @@ export const visibilityState = atom({
   key: "visibilityState",
   default: {
     "China Borders": false,
+    "Study Area": false,
     Rivers: false,
   },
 });
@@ -79,4 +80,9 @@ export const riverRoutesState = selector({
       return end > r.properties.yearstart && start < r.properties.yearend;
     });
   },
+});
+
+export const studyAreaState = atom({
+  key: "studyAreaState",
+  default: [],
 });
