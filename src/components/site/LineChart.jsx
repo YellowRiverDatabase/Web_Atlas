@@ -47,25 +47,26 @@ export function LineChart() {
       .attr("stroke-width", 1.5)
       .attr("d", line);
 
-    svg
-      .append("g")
-      .attr("transform", `translate(0,${height})`)
-      .call(d3.axisBottom(x));
+    // svg
+    //   .append("g")
+    //   .attr("transform", `translate(0,${height})`)
+    //   .call(d3.axisBottom(x));
 
-    svg.append("g").call(d3.axisLeft(y));
+    // svg.append("g").call(d3.axisLeft(y));
   }, [groupedEvents, divWidth]);
 
   useEffect(() => {
     if (svgRef.current) {
-      const svgElement = svgRef.current;
+      const svgElement = svgRef.current.nextSibling;
       const svgWidth = svgElement.getBoundingClientRect().width;
+      console.log(svgElement.getBoundingClientRect().width);
       setDivWidth(svgWidth);
     }
   }, [svgRef]);
 
   return (
-    <div className="line-chart-box">
-      <svg ref={svgRef} className="line-chart" />
-    </div>
+    // <div className="line-chart-box">
+    <svg ref={svgRef} className="line-chart" />
+    // </div>
   );
 }

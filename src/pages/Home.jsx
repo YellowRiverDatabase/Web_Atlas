@@ -14,7 +14,6 @@ export function Home() {
         <BaseMap />
         <EntryModal />
       </Main>
-      <LineChart />
       <TimeSlider />
     </>
   );
