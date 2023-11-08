@@ -1,3 +1,4 @@
+import { group } from "d3-array";
 import { atom, selector } from "recoil";
 
 export const viewState = atom({
@@ -85,4 +86,40 @@ export const riverRoutesState = selector({
 export const studyAreaState = atom({
   key: "studyAreaState",
   default: [],
+});
+
+export const eventsState = atom({
+  key: "eventsState",
+  default: [],
+});
+
+export const filteredEventsState = selector({
+  key: "filteredEventsState",
+  get: ({ get }) => {
+    const events = get(eventsState);
+    const [start, end] = get(yearsState);
+    return events.filter((e) => {
+      return e.en_date_start >= start && e.en_date_start <= end;
+    });
+  },
+});
+
+export const groupedEventsState = selector({
+  key: "groupedEventsState",
+  get: ({ get }) => {
+    const events = get(eventsState);
+    const grouped = Array.from(
+      group(events, (d) => d.en_date_start),
+      ([key, value]) => ({
+        date: key,
+        events: value,
+      })
+    );
+    // sort grouped by date
+    grouped.sort((a, b) => {
+      return a.date - b.date;
+    });
+    console.log(grouped);
+    return grouped;
+  },
 });

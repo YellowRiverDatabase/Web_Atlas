@@ -2,6 +2,7 @@ import DeckGL from "@deck.gl/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   ChinaBorderState,
+  groupedEventsState,
   riverRoutesState,
   riversState,
   studyAreaState,
@@ -17,6 +18,10 @@ import { GeoJsonLayer } from "./GeoJsonLayer";
 import { LineLayer } from "./LineLayer";
 import { useEffect } from "react";
 import { RiversLayer } from "./RiversLayer";
+import { Events } from "./Events";
+import { Tiles } from "./TileLayer";
+import { Marker } from "react-map-gl";
+import { formatDate } from "./formatDate";
 
 export function BaseMap() {
   const [view, setView] = useRecoilState(viewState);
@@ -25,6 +30,10 @@ export function BaseMap() {
   const [rivers, setRivers] = useRecoilState(riversState);
   const [studyarea, setStudyArea] = useRecoilState(studyAreaState);
   const riverRoutes = useRecoilValue(riverRoutesState);
+  const groupedEvents = useRecoilValue(groupedEventsState);
+  useEffect(() => {
+    console.log(groupedEvents);
+  }, [groupedEvents]);
 
   // console.log(studyarea);
 
@@ -35,46 +44,20 @@ export function BaseMap() {
         position: "relative",
       }}
       controller={true}
-      layers={[ChinaBorderLayer(visibility), RiversLayer()]}
+      layers={[Tiles(), ChinaBorderLayer(visibility), Events(), RiversLayer()]}
       onViewStateChange={(e) => {
         setView(e.viewState);
       }}
-    >
-      <Map
-        reuseMaps
-        viewState={{ ...viewState }}
-        interactive={true}
-        // onViewStateChange={(e) => setView(e.viewState)}
-        // onViewStateChange={(e) => {
-        //   setView(e.viewState);
-        // }}
-        mapStyle={BASEMAP.VOYAGER_NOLABELS}
-      >
-        {/* <GeoJsonLayer
-          visibilityName="China Borders"
-          data={chinaBorders}
-          setData={setChinaBorders}
-          color={"white"}
-          url={
-            "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/cultural_data/china-borders.geojson"
-          }
-        />
-        <GeoJsonLayer
-          visibilityName="Study Area"
-          data={studyarea}
-          setData={setStudyArea}
-          color={"white"}
-          url={
-            "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/cultural_data/study-area.geojson"
-          }
-        />
-        <LineLayer
-          visibilityName="Rivers"
-          data={riverRoutes}
-          setData={setRivers}
-          url="https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/physical_data/yellow-river-course-changes.geojson"
-        /> */}
-      </Map>
-    </DeckGL>
+      getTooltip={({ object }) => {
+        if (object && object.properties) {
+          return (
+            object.properties.yearstart + " - " + object.properties.yearend
+          );
+        }
+        if (object && !object.properties) {
+          return `${object.en_type}: ${formatDate(object.en_date_start)}`;
+        }
+      }}
+    ></DeckGL>
   );
 }

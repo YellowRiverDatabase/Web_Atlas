@@ -4,6 +4,7 @@ import { EntryModal } from "../components/site/EntryModal";
 import { Header } from "../components/site/Header";
 import { Main } from "../components/site/Main";
 import TimeSlider from "../components/site/TimeSlider";
+import { LineChart } from "../components/site/LineChart";
 export function Home() {
   return (
     <>
@@ -13,6 +14,7 @@ export function Home() {
         <BaseMap />
         <EntryModal />
       </Main>
+      <LineChart />
       <TimeSlider />
     </>
   );

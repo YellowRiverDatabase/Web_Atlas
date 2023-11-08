@@ -19,6 +19,7 @@ export default function TimeSlider() {
   };
 
   return (
+    // <div className="sliderBoxWrapper">
     <div className="sliderBox">
       <div className="slider-wrapper">
         <div className="values-text">{value[0]}</div>
