@@ -4,11 +4,12 @@ import { atom, selector } from "recoil";
 export const viewState = atom({
   key: "viewState",
   default: {
-    longitude: 104.195,
+    longitude: 109.695,
     latitude: 35.862,
     zoom: 4,
     pitch: 0,
     bearing: 0,
+    minZoom: 5,
   },
 });
 
