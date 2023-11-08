@@ -22,6 +22,8 @@ import { Events } from "./Events";
 import { Tiles } from "./TileLayer";
 import { Marker } from "react-map-gl";
 import { formatDate } from "./formatDate";
+import { StudyArea } from "./StudyArea";
+import { WebMercatorViewport } from "deck.gl";
 
 export function BaseMap() {
   const [view, setView] = useRecoilState(viewState);
@@ -44,7 +46,13 @@ export function BaseMap() {
         position: "relative",
       }}
       controller={true}
-      layers={[Tiles(), ChinaBorderLayer(visibility), Events(), RiversLayer()]}
+      layers={[
+        Tiles(),
+        ChinaBorderLayer(visibility),
+        Events(),
+        RiversLayer(),
+        StudyArea(),
+      ]}
       onViewStateChange={(e) => {
         setView(e.viewState);
       }}

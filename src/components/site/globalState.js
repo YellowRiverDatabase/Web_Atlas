@@ -66,6 +66,11 @@ export const ChinaBorderState = atom({
   default: [],
 });
 
+export const StudyBorderState = atom({
+  key: "StudyBorderState",
+  default: [],
+});
+
 export const riversState = atom({
   key: "riverState",
   default: [],
