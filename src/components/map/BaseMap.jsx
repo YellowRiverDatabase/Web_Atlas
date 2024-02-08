@@ -24,6 +24,7 @@ import { Marker } from "react-map-gl";
 import { formatDate } from "./formatDate";
 import { StudyArea } from "./StudyArea";
 import { WebMercatorViewport } from "deck.gl";
+import { max, min } from "d3-array";
 
 export function BaseMap() {
   const [view, setView] = useRecoilState(viewState);
@@ -63,7 +64,10 @@ export function BaseMap() {
           );
         }
         if (object && !object.properties) {
-          return `${object.en_type}: ${formatDate(object.en_date_start)}`;
+          // console.log(object.events);
+          return `${object.events.length} events: ${formatDate(
+            min(object.events, (a) => a.en_date_start)
+          )} to ${formatDate(max(object.events, (a) => a.en_date_start))}`;
         }
       }}
     ></DeckGL>

@@ -59,6 +59,11 @@ export const visibilityState = atom({
   },
 });
 
+export const sliderWidthState = atom({
+  key: "sliderWidthState",
+  default: 500,
+});
+
 /**
  * state for geojson
  */
@@ -104,9 +109,14 @@ export const filteredEventsState = selector({
   get: ({ get }) => {
     const events = get(eventsState);
     const [start, end] = get(yearsState);
-    return events.filter((e) => {
-      return e.en_date_start >= start && e.en_date_start <= end;
+    const filtered = events.filter((e) => {
+      const evs = e.events.filter((e) => {
+        return e.en_date_start >= start && e.en_date_start <= end;
+      });
+      return evs.length > 0;
     });
+    console.log(filtered);
+    return filtered;
   },
 });
 

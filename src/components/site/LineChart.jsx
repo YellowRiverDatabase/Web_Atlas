@@ -1,13 +1,13 @@
 import { useRecoilValue } from "recoil";
-import { groupedEventsState } from "./globalState";
+import { groupedEventsState, sliderWidthState } from "./globalState";
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
-export function LineChart() {
+export function LineChart({ sliderRef }) {
   const groupedEvents = useRecoilValue(groupedEventsState);
   const svgRef = useRef();
   const boxRef = useRef();
-  const [divWidth, setDivWidth] = useState(500);
+  const divWidth = useRecoilValue(sliderWidthState);
   useEffect(() => {
     console.log(divWidth);
   }, [divWidth]);
@@ -23,6 +23,8 @@ export function LineChart() {
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    svg.selectAll("*").remove();
 
     const x = d3
       .scaleLinear()
@@ -55,14 +57,16 @@ export function LineChart() {
     // svg.append("g").call(d3.axisLeft(y));
   }, [groupedEvents, divWidth]);
 
-  useEffect(() => {
-    if (svgRef.current) {
-      const svgElement = svgRef.current.nextSibling;
-      const svgWidth = svgElement.getBoundingClientRect().width;
-      console.log(svgElement.getBoundingClientRect().width);
-      setDivWidth(svgWidth);
-    }
-  }, [svgRef]);
+  // useEffect(() => {
+  //   if (svgRef.current) {
+  //     const slider = sliderRef.current;
+  //     const svgElement = svgRef.current.nextSibling;
+  //     const svgWidth = svgElement.getBoundingClientRect().width;
+  //     console.log(svgElement.getBoundingClientRect().width);
+  //     console.log(slider.getBoundingClientRect().width);
+  //     setDivWidth(slider.getBoundingClientRect().width);
+  //   }
+  // }, [sliderRef.current.getBoundingClientRect().width]);
 
   return (
     // <div className="line-chart-box">
