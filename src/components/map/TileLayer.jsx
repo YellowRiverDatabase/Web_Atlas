@@ -4,6 +4,7 @@ export function Tiles() {
   const layer = new TileLayer({
     // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Tile_servers
     data: "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    // data: "https://cawm.lib.uiowa.edu/tiles/{z}/{x}/{y}.png",
 
     minZoom: 0,
     maxZoom: 19,
