@@ -82,11 +82,13 @@ export function BaseMap() {
           }
           if (object && !object.properties) {
             // console.log(object.events);
-            return `${object.placepinyin}: ${
+            return `${object.placepinyin} (${object.place_class}): ${
               JSON.parse(object.events).length
             } events from ${formatDate(
-              min(object.events, (a) => a.en_date_start)
-            )} to ${formatDate(max(object.events, (a) => a.en_date_start))}`;
+              min(JSON.parse(object.events), (a) => a.en_date_start)
+            )} to ${formatDate(
+              max(JSON.parse(object.events), (a) => a.en_date_start)
+            )}`;
           }
         }}
       >
