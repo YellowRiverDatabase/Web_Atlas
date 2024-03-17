@@ -12,18 +12,20 @@ export function Events() {
     if (events.length === 0) {
       const fetchData = async () => {
         const res = await fetch(
-          "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-events.json"
+          // "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-events.json"
+          "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-events-with-place-types.json"
         );
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         setEvents(data);
       };
       fetchData();
     }
   }, []);
 
-  const setFillColor = (data) => {
+  const setFillColor = (data1) => {
     // return the most frequent occurence in the array
+    const data = JSON.parse(data1);
     const frequencyHash = {};
     data.forEach(
       (d) =>
@@ -35,7 +37,7 @@ export function Events() {
       return Object.entries(obj).reduce((a, b) => (obj[a] > obj[b] ? a : b));
     };
     const mostFrequent = frequentKey(frequencyHash);
-    console.log(mostFrequent[0]);
+    // console.log(mostFrequent[0]);
     return colorHash[mostFrequent[0]];
   };
 
@@ -53,12 +55,13 @@ export function Events() {
       elevationScale: 1,
       lineWidthMinPixels: 500,
       getElevation: (d) => {
-        return 200 * d.events.length;
+        return d.events.length;
       },
       getPosition: (d) => [d.long, d.lat],
-      getRadius: (d) => 2000,
+      getRadius: (d) => 1500,
       getFillColor: (d) => {
         return setFillColor(d.events);
+        // return [100, 0, 0];
       },
       getLineColor: (d) => [100, 0, 0],
     });
