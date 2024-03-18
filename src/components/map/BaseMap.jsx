@@ -8,6 +8,7 @@ import {
   riversState,
   studyAreaState,
   tableDataState,
+  tableHeaderState,
   viewState,
   visibilityState,
 } from "../site/globalState";
@@ -40,7 +41,7 @@ export function BaseMap() {
   const groupedEvents = useRecoilValue(groupedEventsState);
   const [tableData, setTableData] = useRecoilState(tableDataState);
   const [isTable, setIsTable] = useRecoilState(isTableState);
-  const [tableHeader, setTableHeader] = useRecoilState(tableDataState);
+  const [tableHeader, setTableHeader] = useRecoilState(tableHeaderState);
 
   useEffect(() => {
     console.log(groupedEvents);
@@ -69,7 +70,9 @@ export function BaseMap() {
         }}
         onClick={(e) => {
           if (e.object && e.object.events) {
-            setTableData(JSON.parse(e.object.events));
+            // console.log(e.object.events);
+            // console.log(e.object.placepinyin);
+            setTableData(e.object.events);
             setTableHeader(e.object.placepinyin);
             setIsTable(true);
           }
@@ -83,12 +86,10 @@ export function BaseMap() {
           if (object && !object.properties) {
             // console.log(object.events);
             return `${object.placepinyin} (${object.place_class}): ${
-              JSON.parse(object.events).length
+              object.events.length
             } events from ${formatDate(
-              min(JSON.parse(object.events), (a) => a.en_date_start)
-            )} to ${formatDate(
-              max(JSON.parse(object.events), (a) => a.en_date_start)
-            )}`;
+              min(object.events, (a) => a.en_date_start)
+            )} to ${formatDate(max(object.events, (a) => a.en_date_start))}`;
           }
         }}
       >
