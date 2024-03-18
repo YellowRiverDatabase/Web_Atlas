@@ -127,32 +127,31 @@ export const typesState = atom({
 export const filteredEventsState = selector({
   key: "filteredEventsState",
   get: ({ get }) => {
-    const events = get(eventsState);
+    const ev = get(eventsState);
     const [start, end] = get(yearsState);
     const type = get(typesState);
     const type1 = Object.keys(type).filter((t) => type[t]);
     const typeArray = Object.keys(type).filter((t) => type[t]);
     console.log("typeArray", typeArray);
-    // console.log("events", events.length);
-    const filtered = events.filter((e) => {
-      // console.log("events type", typeof e.events);
-      // return e.place_class !== "administrative units";
+    const updatedEv = ev.map((e) => {
       const parsedEvents = JSON.parse(e.events);
-      console.log("parsedEvents", typeof parsedEvents);
       const eventsArray = parsedEvents.filter((d) => {
-        return end > d.en_date_start &&
-          start < d.en_date_start &&
-          typeArray.length > 0
-          ? typeArray.includes(d.en_type)
-          : d.en_type == d.en_type;
+        if (typeArray.length === 0) {
+          return end > d.en_date_start && start < d.en_date_start;
+        }
+        if (typeArray.length > 0) {
+          return (
+            end > d.en_date_start &&
+            start < d.en_date_start &&
+            typeArray.includes(d.en_type)
+          );
+        }
       });
-      const newE = { ...e, events: eventsArray };
-      return (
-        newE.events.length > 0 && newE.place_class !== "administrative units"
-      );
-      // return e.events.length > 0;
+      return { ...e, events: eventsArray };
     });
-    console.log("filtered: ", filtered.length);
+    const filtered = updatedEv.filter((e) => {
+      return e.events.length > 0 && e.place_class !== "administrative units";
+    });
     return filtered;
   },
 });
