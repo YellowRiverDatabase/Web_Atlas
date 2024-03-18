@@ -25,7 +25,7 @@ export function Events() {
 
   const setFillColor = (data1) => {
     // return the most frequent occurence in the array
-    const data = JSON.parse(data1);
+    const data = data1;
     const frequencyHash = {};
     data.forEach(
       (d) =>
@@ -55,7 +55,8 @@ export function Events() {
       elevationScale: 1,
       lineWidthMinPixels: 500,
       getElevation: (d) => {
-        return d.events.length;
+        // console.log("from the events", d.events);
+        return 200 * d.events.length;
       },
       getPosition: (d) => [d.long, d.lat],
       getRadius: (d) => 1500,
