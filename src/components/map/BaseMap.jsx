@@ -85,11 +85,31 @@ export function BaseMap() {
           }
           if (object && !object.properties) {
             // console.log(object.events);
-            return `${object.placepinyin} (${object.place_class}): ${
+            return `${object.ch_pinyin} (${object.place_class}): ${
               object.events.length
             } events from ${formatDate(
-              min(object.events, (a) => a.en_date_start)
-            )} to ${formatDate(max(object.events, (a) => a.en_date_start))}`;
+              min(
+                object.events
+                  .map((a) =>
+                    Object.values(a)
+                      .flat()
+                      .map((b) => b.en_date_start)
+                  )
+                  .flat(),
+                (c) => c
+              )
+            )} to ${formatDate(
+              max(
+                object.events
+                  .map((a) =>
+                    Object.values(a)
+                      .flat()
+                      .map((b) => b.en_date_start)
+                  )
+                  .flat(),
+                (c) => c
+              )
+            )}`;
           }
         }}
       >

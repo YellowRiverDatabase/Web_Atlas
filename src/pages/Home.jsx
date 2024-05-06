@@ -5,7 +5,9 @@ import { Header } from "../components/site/Header";
 import { Main } from "../components/site/Main";
 import TimeSlider from "../components/site/TimeSlider";
 import { LineChart } from "../components/site/LineChart";
+import { useRef } from "react";
 export function Home() {
+  const sliderRef = useRef();
   return (
     <>
       <Main>
@@ -14,7 +16,8 @@ export function Home() {
         <BaseMap />
         <EntryModal />
       </Main>
-      <TimeSlider />
+      <TimeSlider ref={sliderRef} />
+      <LineChart sliderRef={sliderRef} />
     </>
   );
 }

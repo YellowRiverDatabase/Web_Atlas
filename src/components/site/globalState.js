@@ -128,38 +128,41 @@ export const filteredEventsState = selector({
   key: "filteredEventsState",
   get: ({ get }) => {
     const ev = get(eventsState);
+    console.log("ev:", ev);
     const [start, end] = get(yearsState);
     const type = get(typesState);
     const type1 = Object.keys(type).filter((t) => type[t]);
     const typeArray = Object.keys(type).filter((t) => type[t]);
-    console.log("typeArray", typeArray);
-    const updatedEv = ev.map((e) => {
-      const parsedEvents = JSON.parse(e.events);
-      const eventsArray = parsedEvents.filter((d) => {
-        if (typeArray.length === 0) {
-          return end > d.en_date_start && start < d.en_date_start;
-        }
-        if (typeArray.length > 0) {
-          return (
-            end > d.en_date_start &&
-            start < d.en_date_start &&
-            typeArray.includes(d.en_type)
-          );
-        }
-      });
-      return { ...e, events: eventsArray };
-    });
-    const filtered = updatedEv.filter((e) => {
-      return e.events.length > 0 && e.place_class !== "administrative units";
-    });
-    return filtered;
+    // const updatedEv = ev.map((e) => {
+    //   // const parsedEvents = JSON.parse(e.events);
+    //   const eventsArray = e.events.filter((d) => {
+    //     if (typeArray.length === 0) {
+    //       return end > d.en_date_start && start < d.en_date_start;
+    //     }
+    //     if (typeArray.length > 0) {
+    //       return (
+    //         end > d.en_date_start &&
+    //         start < d.en_date_start &&
+    //         typeArray.includes(d.en_type)
+    //       );
+    //     }
+    //   });
+    //   return { ...e, events: eventsArray };
+    // });
+    // const filtered = updatedEv.filter((e) => {
+    //   return e.events.length > 0 && e.place_class !== "administrative units";
+    // });
+    return ev;
   },
 });
 
 export const groupedEventsState = selector({
   key: "groupedEventsState",
   get: ({ get }) => {
-    const events = get(eventsState);
+    const places = get(eventsState);
+    const events = [];
+    places.forEach((p) => events.push(p.events));
+    // events.sort((a, b) => a.en_date_start - b.en_date_start);
     const grouped = Array.from(
       group(events, (d) => d.en_date_start),
       ([key, value]) => ({
@@ -171,7 +174,7 @@ export const groupedEventsState = selector({
     grouped.sort((a, b) => {
       return a.date - b.date;
     });
-    console.log(grouped);
+    console.log("grouped:", grouped);
     return grouped;
   },
 });

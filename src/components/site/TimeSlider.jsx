@@ -5,7 +5,7 @@ import styled, { css } from "styled-components";
 import { sliderWidthState, yearsState } from "./globalState";
 import { LineChart } from "./LineChart";
 
-export default function TimeSlider() {
+export default function TimeSlider({ ref }) {
   const [value, setValue] = useState([-2070, 1916]);
   const [rangeMin, setRangeMin] = useState(-2070);
   const [rangeMax, setRangeMax] = useState(1916);

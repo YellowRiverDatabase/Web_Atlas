@@ -105,7 +105,6 @@ export function MyTable() {
               <tr
                 key={`table-row-${i}`}
                 onClick={() => {
-                  console.log(isTable);
                   setIsTable(false);
                 }}
               >
