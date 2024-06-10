@@ -1,5 +1,11 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { isTableState, tableDataState, tableHeaderState } from "./globalState";
+import {
+  isSourceModalState,
+  isTableState,
+  sourceModalInfoState,
+  tableDataState,
+  tableHeaderState,
+} from "./globalState";
 import { useMemo } from "react";
 import { formatDate } from "../map/formatDate";
 
@@ -74,6 +80,8 @@ export function MyTable() {
   const [isTable, setIsTable] = useRecoilState(isTableState);
   const tableData = useRecoilValue(tableDataState);
   const tableHeader = useRecoilValue(tableHeaderState);
+  const [sourceInfo, setSourceInfo] = useRecoilState(sourceModalInfoState);
+  const [isSourceModal, setIsSourceModal] = useRecoilState(isSourceModalState);
 
   const sortedTableData = useMemo(() => {
     return [...tableData].sort((a, b) => +a.en_date_start - +b.en_date_start);
@@ -101,18 +109,22 @@ export function MyTable() {
             </tr>
           </thead>
           <tbody>
-            {sortedTableData.map((row, i) => (
-              <tr
-                key={`table-row-${i}`}
-                onClick={() => {
-                  setIsTable(false);
-                }}
-              >
-                <td style={dataStyle}>{formatDate(row.en_date_start)}</td>
-                <td style={dataStyle}>{row.en_cat}</td>
-                <td style={dataStyle}>{row.en_type}</td>
-              </tr>
-            ))}
+            {sortedTableData.map((r, i) => {
+              const row = r[0];
+              return (
+                <tr
+                  key={`table-row-${i}`}
+                  onClick={() => {
+                    setSourceInfo({ place: tableHeader, ...row });
+                    setIsSourceModal(true);
+                  }}
+                >
+                  <td style={dataStyle}>{formatDate(row.en_date_start)}</td>
+                  <td style={dataStyle}>{row.en_cat}</td>
+                  <td style={dataStyle}>{row.en_type}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>

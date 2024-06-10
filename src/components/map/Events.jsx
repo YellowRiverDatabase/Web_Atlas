@@ -12,8 +12,8 @@ export function Events() {
     if (events.length === 0) {
       const fetchData = async () => {
         const res = await fetch(
-          // "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-events.json"-and-
-          "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-and-events.json"
+          "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-events-with-place-types.json"
+          // "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-and-events.json"
         );
         const data = await res.json();
         // console.log(data);
@@ -24,20 +24,15 @@ export function Events() {
   }, []);
 
   const setFillColor = (data1) => {
-    // return the most frequent occurence in the array
-    const data = data1;
+    const data = data1.flat().map((d) => Array.from(d.en_type)); // flatten the array and convert Set to Array
     const frequencyHash = {};
-    data.forEach(
-      (d) =>
-        (frequencyHash[d.en_type] = frequencyHash[d.en_type]
-          ? (frequencyHash[d.en_type] += 1)
-          : (frequencyHash[d.en_type] = 1))
+    data.forEach((d) =>
+      d.forEach((cat) => (frequencyHash[cat] = (frequencyHash[cat] || 0) + 1))
     );
     const frequentKey = (obj) => {
       return Object.entries(obj).reduce((a, b) => (obj[a] > obj[b] ? a : b));
     };
     const mostFrequent = frequentKey(frequencyHash);
-    // console.log(mostFrequent[0]);
     return colorHash[mostFrequent[0]];
   };
 
@@ -61,8 +56,8 @@ export function Events() {
       getPosition: (d) => [d.lon, d.lat],
       getRadius: (d) => 1500,
       getFillColor: (d) => {
-        // return setFillColor(d.events);
-        return [100, 0, 0];
+        return setFillColor(d.events);
+        // return [100, 0, 0];
       },
       getLineColor: (d) => [100, 0, 0],
     });

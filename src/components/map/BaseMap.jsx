@@ -31,6 +31,13 @@ import { max, min } from "d3-array";
 import { MyTable } from "../site/Table";
 import { Filter } from "./Filter";
 
+function capitalizeWords(string) {
+  return string
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 export function BaseMap() {
   const [view, setView] = useRecoilState(viewState);
   const [visibility, setVisibility] = useRecoilState(visibilityState);
@@ -70,10 +77,10 @@ export function BaseMap() {
         }}
         onClick={(e) => {
           if (e.object && e.object.events) {
-            // console.log(e.object.events);
+            console.log(e.object.events);
             // console.log(e.object.placepinyin);
             setTableData(e.object.events);
-            setTableHeader(e.object.placepinyin);
+            setTableHeader(capitalizeWords(e.object.ch_pinyin));
             setIsTable(true);
           }
         }}
@@ -85,7 +92,7 @@ export function BaseMap() {
           }
           if (object && !object.properties) {
             // console.log(object.events);
-            return `${object.ch_pinyin} (${object.place_class}): ${
+            return `${object.ch_pinyin} (${object.ft_id}): ${
               object.events.length
             } events from ${formatDate(
               min(
