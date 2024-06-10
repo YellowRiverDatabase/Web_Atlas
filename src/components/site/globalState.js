@@ -1,4 +1,4 @@
-import { group } from "d3-array";
+import { filter, group } from "d3-array";
 import { log } from "deck.gl";
 import { atom, selector } from "recoil";
 
@@ -54,6 +54,16 @@ export const isLayersMenuState = atom({
 export const isNavMenuState = atom({
   key: "isNavMenuState",
   default: false,
+});
+
+export const isSourceModalState = atom({
+  key: "isSourceModalState",
+  default: false,
+});
+
+export const sourceModalInfoState = atom({
+  key: "sourceModalInfoState",
+  default: {},
 });
 
 export const dynastiesState = atom({
@@ -119,6 +129,47 @@ export const eventsState = atom({
   default: [],
 });
 
+export const eventState1 = selector({
+  key: "eventState1",
+  get: ({ get }) => {
+    const ev = get(eventsState);
+    console.log("ev:", ev);
+    const newEv = [];
+    ev.forEach((e) => {
+      const events = e.events;
+      const reducedEvents = events.map((eventGroup) => {
+        const events = Object.values(eventGroup)[0];
+
+        return events.reduce((acc, event) => {
+          const existingEvent = acc.find(
+            (e) => e.en_date_start === event.en_date_start
+          );
+
+          if (existingEvent) {
+            existingEvent.en_cat = new Set(existingEvent.en_cat);
+            existingEvent.en_title = new Set(existingEvent.en_title);
+            existingEvent.en_type = new Set(existingEvent.en_type);
+            existingEvent.source = new Set(existingEvent.source);
+          } else {
+            acc.push({
+              ch_date: event.ch_date,
+              en_date_start: event.en_date_start,
+              en_cat: new Set([event.en_cat]),
+              en_title: new Set([event.en_title]),
+              en_type: new Set([event.en_type]),
+              source: new Set([event.source]),
+            });
+          }
+
+          return acc;
+        }, []);
+      });
+      newEv.push({ ...e, events: reducedEvents });
+    });
+    return newEv;
+  },
+});
+
 export const typesState = atom({
   key: "typesArrayState",
   default: {},
@@ -127,32 +178,36 @@ export const typesState = atom({
 export const filteredEventsState = selector({
   key: "filteredEventsState",
   get: ({ get }) => {
-    const ev = get(eventsState);
-    console.log("ev:", ev);
+    const ev = get(eventState1);
+    // const newEv = get(eventState1);
+    // console.log("ev:", ev);
+    console.log("newEv:", ev);
     const [start, end] = get(yearsState);
     const type = get(typesState);
     const type1 = Object.keys(type).filter((t) => type[t]);
     const typeArray = Object.keys(type).filter((t) => type[t]);
-    // const updatedEv = ev.map((e) => {
-    //   // const parsedEvents = JSON.parse(e.events);
-    //   const eventsArray = e.events.filter((d) => {
-    //     if (typeArray.length === 0) {
-    //       return end > d.en_date_start && start < d.en_date_start;
-    //     }
-    //     if (typeArray.length > 0) {
-    //       return (
-    //         end > d.en_date_start &&
-    //         start < d.en_date_start &&
-    //         typeArray.includes(d.en_type)
-    //       );
-    //     }
-    //   });
-    //   return { ...e, events: eventsArray };
-    // });
-    // const filtered = updatedEv.filter((e) => {
-    //   return e.events.length > 0 && e.place_class !== "administrative units";
-    // });
-    return ev;
+    const updatedEv = ev.map((e) => {
+      const eventsArray = e.events.filter((d) => {
+        // const arr = Object.keys(d);
+        if (typeArray.length === 0) {
+          // console.log("d", d.length);
+          return end > d[0].en_date_start && start < d[0].en_date_start;
+        }
+        if (typeArray.length > 0) {
+          return (
+            end > d[0].en_date_start &&
+            start < d[0].en_date_start &&
+            typeArray.some((type) => d[0].en_type.has(type))
+          );
+        }
+      });
+      return { ...e, events: eventsArray };
+    });
+    const filtered = updatedEv.filter((e) => {
+      return e.events.length > 0 && e.place_class !== "administrative units";
+    });
+    console.log("filtered:", filtered);
+    return filtered;
   },
 });
 
