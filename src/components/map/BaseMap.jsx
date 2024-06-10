@@ -13,7 +13,7 @@ import {
   visibilityState,
 } from "../site/globalState";
 import { OceansLayer } from "./OceansLayer";
-import { Map } from "react-map-gl/maplibre";
+import { Map } from "react-map-gl";
 import { BASEMAP } from "@deck.gl/carto";
 import oceans from "../../mymaps/oceans.json";
 import { ChinaBorderLayer } from "./ChinaBorder";
@@ -30,6 +30,7 @@ import { WebMercatorViewport } from "deck.gl";
 import { max, min } from "d3-array";
 import { MyTable } from "../site/Table";
 import { Filter } from "./Filter";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 function capitalizeWords(string) {
   return string
@@ -65,8 +66,9 @@ export function BaseMap() {
           position: "relative",
         }}
         controller={true}
+        map
         layers={[
-          Tiles(),
+          // Tiles(),
           // ChinaBorderLayer(visibility),
           Events(),
           RiversLayer(),
@@ -120,14 +122,13 @@ export function BaseMap() {
           }
         }}
       >
-        {/* <Map
-        reuseMaps
-        // mapStyle={"mapbox://styles/nkmwicz123/clsg57t6903gi01p27znh5t4s"}
-        // mapStyle="mapbox://styles/nkmwicz123/clsg5aqky03gr01pb30cmebxd"
-        mapStyle="mapbox://styles/nkmwicz/cl0tn8k16000r14s2xbgesv75"
-        preventStyleDiffing={true}
-        mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
-      /> */}
+        <Map
+          reuseMaps
+          mapStyle={"mapbox://styles/nkmwicz123/clsg57t6903gi01p27znh5t4s"}
+          // mapStyle="mapbox://styles/nkmwicz123/clsg5aqky03gr01pb30cmebxd"
+          preventStyleDiffing={true}
+          mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
+        />
       </DeckGL>
       <MyTable /> <Filter />
     </>
