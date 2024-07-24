@@ -15,7 +15,7 @@ export function RiversLayer() {
   const visibility = useRecoilValue(visibilityState);
   useEffect(() => {
     if (Object.keys(rivers).length === 0) {
-      console.log("fetching");
+      // console.log("fetching");
       const fetchData = async () => {
         const res = await fetch(
           "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/physical_data/yellow-river-course-changes.geojson"

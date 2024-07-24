@@ -25,7 +25,7 @@ export function GeoJsonLayer({
       const fetchData = async () => {
         const res = await fetch(url);
         const data = await res.json();
-        console.log(data);
+        // console.log(data);
         if (data.features.time) {
           data.feature.start_date = dynasties[data.feature.time][0];
           data.feature.end_date = dynasties[data.feature.time][1];
@@ -35,7 +35,7 @@ export function GeoJsonLayer({
       fetchData();
     }
   }, [data, visibility[visibilityName]]);
-  // console.log(data);
+  // // console.log(data);
   return (
     <>
       {visibility[visibilityName]
@@ -51,7 +51,7 @@ export function GeoJsonLayer({
                   id={visibilityName + i}
                   type="fill"
                   onClick={() => {
-                    console.log("clicked");
+                    // console.log("clicked");
                   }}
                   source={visibilityName + i}
                   paint={{

@@ -25,7 +25,7 @@ export function LineLayer({ visibilityName, data, setData, url, color }) {
       fetchData();
     }
   }, [data, visibility[visibilityName]]);
-  // console.log(data);
+  // // console.log(data);
   return (
     <>
       {visibility[visibilityName]

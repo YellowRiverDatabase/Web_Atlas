@@ -3,9 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled, { css } from "styled-components";
 import { sliderWidthState, yearsState } from "./globalState";
-import { LineChart } from "./LineChart";
+// import { LineChart } from "./LineChart";
 
-export default function TimeSlider({ ref }) {
+export default function TimeSlider() {
   const [value, setValue] = useState([-2070, 1916]);
   const [rangeMin, setRangeMin] = useState(-2070);
   const [rangeMax, setRangeMax] = useState(1916);
@@ -25,7 +25,7 @@ export default function TimeSlider({ ref }) {
   useEffect(() => {
     const track = document.querySelector(".MuiSlider-root.sliderMUI");
     const trackW = track.offsetWidth;
-    console.log(trackW);
+    // console.log(trackW);
     if (trackWidth !== trackW) {
       setTrackWidth(trackW);
     }
@@ -34,7 +34,7 @@ export default function TimeSlider({ ref }) {
   useEffect(() => {
     // const track = document.querySelector(".MuiSlider-rail");
     // const trackW = track.offsetWidth;
-    // console.log("sliderWidth", width);
+    // // console.log("sliderWidth", width);
     setWidth(trackWidth);
   }, [trackWidth]);
 
@@ -44,9 +44,9 @@ export default function TimeSlider({ ref }) {
       <div className="box-wrapper">
         <div className="values-text">{value[0]}</div>
         <div className="slider-wrapper">
-          <LineChart sliderRef={sliderRef} />
+          {/* <LineChart sliderRef={sliderRef} /> */}
           <Slider
-            ref={sliderRef}
+            // ref={sliderRef}
             className="sliderMUI"
             value={value}
             onChange={handleChange}

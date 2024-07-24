@@ -9,7 +9,7 @@ export function StudyArea() {
   const visibility = useRecoilValue(visibilityState);
   useEffect(() => {
     if (Object.keys(studyBorder).length === 0) {
-      console.log("fetching");
+      // console.log("fetching");
       const fetchData = async () => {
         const res = await fetch(
           "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/cultural_data/studyarea.geojson"

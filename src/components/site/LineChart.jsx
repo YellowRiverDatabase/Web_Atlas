@@ -1,106 +1,398 @@
-import { useRecoilValue } from "recoil";
-import { groupedEventsState, sliderWidthState } from "./globalState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  groupedEventsState,
+  sliderWidthState,
+  upstreamChoicesState,
+  yearsState,
+} from "./globalState";
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
+import { Checkbox } from "./Checkbox";
 
-// const svgStyles = {
-//   position: "absolute",
-//   bottom: "23%",
-// };
+const lineChartBox = {
+  // display: "flex",
+  // flexDirection: "column",
+  position: "absolute",
+  bottom: "10px",
+  left: 0,
+  width: "100vw",
+  height: "200px",
+  zIndex: 999,
+  // padding: "0 10px",
+};
 
-export function LineChart({ sliderRef }) {
+const radioBtns = {
+  position: "absolute",
+  bottom: "150px",
+};
+
+const svg = {
+  position: "relative",
+  margin: "40px auto 0 auto",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  height: "150px",
+  // backgroundColor: "rgba(255, 255, 255, 0.6)",
+};
+
+const slider = {
+  position: "relative",
+  margin: "0 auto 0 auto",
+  backgroundColor: "rgba(255, 255, 255, 0.6)",
+};
+
+const sliderRight = {
+  position: "relative",
+  width: "5px",
+  height: "100%",
+  backgroundColor: "blue",
+  border: "solid 1px black",
+  zIndex: 999,
+  cursor: "crosshair",
+};
+const sliderLeft = {
+  position: "relative",
+  width: "5px",
+  height: "100%",
+  backgroundColor: "blue",
+  border: "solid 1px black",
+};
+
+const leftYears = {
+  position: "absolute",
+  bottom: 50,
+  height: "25px",
+  width: "75px",
+  borderRadius: "10pt",
+  border: "solid 1px black",
+  textAlign: "center",
+  color: "black",
+  backgroundColor: "white",
+};
+
+const rightYears = {
+  position: "absolute",
+  bottom: 50,
+  height: "25px",
+  width: "75px",
+  borderRadius: "10pt",
+  border: "solid 1px black",
+  textAlign: "center",
+  color: "black",
+  backgroundColor: "white",
+};
+
+export function LineChart() {
+  const [snapShots, setSnapShots] = useRecoilState(upstreamChoicesState);
   const groupedEvents = useRecoilValue(groupedEventsState);
   const svgRef = useRef();
   const boxRef = useRef();
-  const divWidth = useRecoilValue(sliderWidthState);
-  // useEffect(() => {
-  //   console.log("sliderRef", svgRef.current.width);
-  //   console.log("divwidth:", divWidth);
-  // }, [divWidth]);
+  const [divWidth, setDivWidth] = useRecoilState(sliderWidthState);
+  const [svgWidth, setSvgWidth] = useState(500);
+  const [isRightDragging, setIsRightDragging] = useState(false);
+  const [isLeftDragging, setIsLeftDragging] = useState(false);
+  const [years, setYears] = useRecoilState(yearsState);
+  const [localYears, setLocalYears] = useState(years);
+
+  const [rectRX, setRectRX] = useState(divWidth);
+  const [rectLX, setRectLX] = useState(divWidth - divWidth);
+
+  const rightXRef = useRef();
+  const leftXRef = useRef();
+  const svgBoxRef = useRef();
 
   useEffect(() => {
-    const margin = { top: 10, right: 30, bottom: 30, left: 60 };
-    const width = divWidth * 2.2;
-    const height = 150 - margin.top - margin.bottom;
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      const svgSize = windowWidth * 0.8;
+      setDivWidth(svgSize);
+    };
 
-    const svg = d3
-      .select(svgRef.current)
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr(
-        "transform",
-        `translate(${divWidth / 1.7 + margin.left},${margin.top})`
-      );
+    handleResize();
 
-    svg.selectAll("*").remove();
+    window.addEventListener("resize", handleResize);
 
-    const x = d3
-      .scaleLinear()
-      .domain(d3.extent(groupedEvents, (d) => d.date))
-      .range([0, width]);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-    const y = d3
-      .scaleLinear()
-      .domain(d3.extent(groupedEvents, (d) => d.events.length))
-      .range([height, -height]);
+  const margin = { top: 10, right: 30, bottom: 30, left: 30 };
+  // const width = divWidth * 2.2;
+  const width = divWidth;
+  const height = 150 - margin.top - margin.bottom;
 
-    const line = d3
-      .line()
-      .x((d) => x(d.date))
-      .y((d) => y(d.events.length));
+  const x = d3
+    .scaleLinear()
+    .domain(d3.extent(groupedEvents, (d) => d.date))
+    .range([0, width]);
 
-    const bisect = d3.bisector((d) => d.date).left;
+  const y = d3
+    .scaleLinear()
+    .domain(d3.extent(groupedEvents, (d) => d.events.length))
+    .range([height, -height]);
 
-    svg
-      .append("path")
-      .datum(groupedEvents)
-      .attr("fill", "none")
-      .attr("stroke", "steelblue")
-      .attr("stroke-width", 1.7)
-      .attr("d", line);
-    // .on("mouseover", (event) => {
-    //   // Get the current mouse position
-    //   const [mx] = d3.pointer(event);
+  const linebuilder = d3
+    .line()
+    .x((d) => x(d.date))
+    .y((d) => y(d.events.length));
 
-    //   // Convert the mouse position to a date
-    //   const mouseDate = x.invert(mx);
+  const linepath = linebuilder(groupedEvents);
 
-    //   // Find the index of the data point closest to the mouse position
-    //   const idx = bisect(groupedEvents, mouseDate);
+  const rightDate = Math.round(x.invert(rectRX + 5));
+  const leftDate = Math.round(x.invert(rectLX - 5));
 
-    //   // Get the data point
-    //   const d = groupedEvents[idx];
+  useEffect(() => {
+    setLocalYears([
+      leftDate < -1700 ? -1700 : leftDate,
+      rightDate > 1916 ? 1916 : rightDate,
+    ]);
+  }, [leftDate, rightDate]);
 
-    //   console.log(d);
-    // });
+  useEffect(() => {
+    if (isRightDragging === false) {
+      rightDate < 1916 && setYears([years[0], localYears[1]]);
+      rightDate > 1916 && setYears([years[0], 1916]);
+    }
+  }, [isRightDragging, rectRX]);
 
-    // svg
-    //   .append("g")
-    //   .attr("transform", `translate(0,${height})`)
-    //   .call(d3.axisBottom(x));
+  useEffect(() => {
+    if (isLeftDragging === false) {
+      leftDate > -2070 && setYears([localYears[0], years[1]]);
+      // console.log("rectLX", Math.round(x.invert(rectLX - 5)));
+      leftDate < -2070 && setYears([-2070, years[1]]);
+    }
+  }, [isLeftDragging, rectLX]);
 
-    // svg.append("g").call(d3.axisLeft(y));
-  }, [groupedEvents, divWidth]);
+  const bisect = d3.bisector((d) => d.date).left;
 
-  // useEffect(() => {
-  //   if (svgRef.current) {
-  //     const slider = sliderRef.current;
-  //     const svgElement = svgRef.current.nextSibling;
-  //     const svgWidth = svgElement.getBoundingClientRect().width;
-  //     console.log(svgElement.getBoundingClientRect().width);
-  //     console.log(slider.getBoundingClientRect().width);
-  //     setDivWidth(slider.getBoundingClientRect().width);
-  //   }
-  // }, [sliderRef.current.getBoundingClientRect().width]);
+  const handleRRectMove = (e, direction) => {
+    const [mouseX] = d3.pointer(e);
+    const dateValue = x.invert(mouseX);
+    if (mouseX === 0 || mouseX === divWidth) {
+      setIsLeftDragging(false);
+      setIsRightDragging(false);
+    }
+    if (
+      direction === "right" &&
+      mouseX > 0 &&
+      mouseX < divWidth &&
+      mouseX > rectLX
+    ) {
+      setRectRX(mouseX + 5);
+    }
+    if (
+      direction === "left" &&
+      mouseX > 0 &&
+      mouseX < divWidth &&
+      mouseX < rectRX
+    ) {
+      setRectLX(mouseX - 5);
+    }
+  };
+  const handleMouseUp = (e) => {
+    setIsRightDragging(false);
+    setIsLeftDragging(false);
+  };
+
+  const handleClick = (key) => {
+    setSnapShots({ ...snapShots, [key]: !snapShots[key] });
+  };
+
+  const handleSvgClick = (e) => {
+    const [mouseX] = d3.pointer(e);
+    const closestRect = rectRX - mouseX < mouseX - rectLX ? "right" : "left";
+    if (closestRect === "right") {
+      mouseX + 5 < x(1916) ? setRectRX(mouseX + 5) : setRectRX(x(1916) - 5);
+    } else {
+      setRectLX(mouseX - 5);
+    }
+  };
+
+  function spaceBoxes(key, i, snapShots, x) {
+    const keys = Object.keys(snapShots);
+    let currentX = x(key) - 15;
+
+    // Check backward
+    // if (i > 0) {
+    //   const prevKey = keys[i - 1];
+    //   const prevX = x(prevKey) - 15;
+    //   if (currentX - prevX < 25) {
+    //     currentX = prevX + 25; // Adjust to avoid overlap
+    //   }
+    // }
+
+    // Check forward
+    if (i < keys.length - 1) {
+      const nextKey = keys[i + 1];
+      const nextX = x(nextKey) - 15;
+      if (nextX - currentX < 50) {
+        currentX -= 25; // Adjust to avoid overlap, if possible
+      }
+    }
+
+    return currentX;
+  }
+
+  const spaceBoxesEvenly = (key, i, snapShots, totalWidth) => {
+    const numBoxes = Object.keys(snapShots).length;
+    const spacing = totalWidth / numBoxes;
+    return i * spacing + spacing / 2 - 10;
+  };
 
   return (
-    // <div className="line-chart-box">
-    <svg
-      ref={svgRef}
-      //style={svgStyles}
-      className="line-chart"
-    />
-    // </div>
+    <div style={lineChartBox}>
+      <div style={{ ...slider, width: divWidth + 20, marginBottom: "100px" }}>
+        <div style={{ ...leftYears, left: -95 }}>{localYears[0]}</div>
+        <div style={{ ...rightYears, right: -95 }}>{localYears[1]}</div>
+        <svg
+          id="radio-buttons"
+          style={{
+            ...radioBtns,
+            width: divWidth + 20,
+            height: "40px",
+            // border: "solid 1px black",
+          }}
+          viewBox={`0 0 ${divWidth + 20} 25`}
+        >
+          {Object.entries(snapShots).map(([key, value], i) => {
+            return (
+              <g key={`${key}`}>
+                <rect
+                  aria-label="checkbox"
+                  aria-checked={value}
+                  onClick={() => handleClick(key)}
+                  height={20}
+                  width={20}
+                  // x={spaceBoxes(key, i, snapShots, x)}
+                  x={spaceBoxesEvenly(key, i, snapShots, divWidth + 20)}
+                  y={7}
+                  stroke="black"
+                  strokeLinecap="round"
+                  strokeWidth={3}
+                  fill={"white"}
+                  rx={3}
+                  cursor={"pointer"}
+                />
+                {value && (
+                  <text
+                    onClick={() => handleClick(key)}
+                    stroke={"black"}
+                    fontWeight={"bold"}
+                    // x={x(key) - 10.5}
+                    x={spaceBoxesEvenly(key, i, snapShots, divWidth + 20) + 4}
+                    // x={spaceBoxes(key, i, snapShots, x) + 4}
+                    y={22}
+                    aria-hidden="true"
+                    cursor={"pointer"}
+                  >
+                    X
+                  </text>
+                )}
+                <text
+                  aria-hidden="true"
+                  // x={x(key) - 25}
+                  // x={spaceBoxes(key, i, snapShots, x) - 25}
+                  x={spaceBoxesEvenly(key, i, snapShots, divWidth + 20) - 5}
+                  y={5}
+                >
+                  {key}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+        <svg
+          style={{
+            ...svg,
+            width: divWidth + 20,
+            height: "100%",
+            cursor: isLeftDragging || isRightDragging ? "ew-resize" : "default",
+            border: "solid 1px black",
+          }}
+          onClick={(e) => handleSvgClick(e)}
+          ref={svgBoxRef}
+          onMouseUp={(e) => handleMouseUp(e)}
+          onMouseMove={(e) => {
+            if (isRightDragging) {
+              handleRRectMove(e, "right");
+            }
+            if (isLeftDragging) {
+              handleRRectMove(e, "left");
+            }
+          }}
+        >
+          <path
+            fill={"none"}
+            stroke="steelblue"
+            style={{ marginLeft: margin.left }}
+            d={linepath}
+            strokeWidth={1.25}
+            width={divWidth - 20}
+          />
+          <rect
+            id="fillColor"
+            x={rectLX}
+            y={0}
+            width={rectRX - rectLX}
+            height={height + 50}
+            fill="rgba(0,0,0,0.2)" // Slightly darker than the background color
+          />
+          <g
+            id="RigthRect"
+            ref={rightXRef}
+            style={{ cursor: "ew-resize" }}
+            onMouseDown={() => setIsRightDragging(true)}
+          >
+            <rect
+              x={rectRX - 2.5}
+              y={0}
+              width={5}
+              height={height + 50}
+              fill="steelblue"
+              stroke="black"
+            />
+            <rect
+              x={rectRX - 7}
+              y={65}
+              width={15}
+              height={25}
+              fill="steelblue"
+              stroke="black"
+              style={{ cursor: "ew-resize" }}
+              pointerEvents="all"
+            />
+          </g>
+          <g
+            id="LeftRect"
+            ref={leftXRef}
+            onMouseDown={() => setIsLeftDragging(true)}
+            cursor={"ew-resize"}
+            pointerEvents="all"
+          >
+            <rect
+              x={rectLX}
+              y={0}
+              width={5}
+              height={height + 50}
+              fill="steelblue"
+              stroke="black"
+            />
+            <rect
+              x={rectLX - 5}
+              y={65}
+              width={15}
+              height={25}
+              fill="steelblue"
+              stroke="black"
+              style={{ cursor: "ew-resize" }}
+              pointerEvents="all"
+            />
+          </g>
+        </svg>
+      </div>
+    </div>
   );
 }

@@ -9,7 +9,7 @@ export function ChinaBorderLayer() {
   const visibility = useRecoilValue(visibilityState);
   useEffect(() => {
     if (Object.keys(chinaBorder).length === 0) {
-      console.log("fetching");
+      // console.log("fetching");
       const fetchData = async () => {
         const res = await fetch(
           "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/cultural_data/china-borders.geojson"

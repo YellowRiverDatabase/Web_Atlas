@@ -16,7 +16,7 @@ export function Events() {
           // "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-and-events.json"
         );
         const data = await res.json();
-        // console.log(data);
+        // // console.log(data);
         setEvents(data);
       };
       fetchData();
@@ -50,7 +50,7 @@ export function Events() {
       elevationScale: 1,
       lineWidthMinPixels: 500,
       getElevation: (d) => {
-        // console.log("from the events", d.events);
+        // // console.log("from the events", d.events);
         return 300 * d.events.length;
       },
       getPosition: (d) => [d.lon, d.lat],

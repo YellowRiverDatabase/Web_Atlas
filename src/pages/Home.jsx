@@ -8,7 +8,7 @@ import { LineChart } from "../components/site/LineChart";
 import { useRef } from "react";
 import { ModalSources } from "../components/site/ModalSources";
 export function Home() {
-  const sliderRef = useRef();
+  // const sliderRef = useRef();
   return (
     <>
       <Main>
@@ -17,8 +17,8 @@ export function Home() {
         <BaseMap />
         <EntryModal />
       </Main>
-      <TimeSlider ref={sliderRef} />
-      <LineChart sliderRef={sliderRef} />
+      {/* <TimeSlider /> */}
+      <LineChart />
       <ModalSources />
     </>
   );

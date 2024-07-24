@@ -58,7 +58,7 @@ export function ModalSources({ sources, onClose }) {
   const [isSourceModal, setIsSourceModal] = useRecoilState(isSourceModalState);
   const sourceInfo = useRecoilValue(sourceModalInfoState);
 
-  console.log("source info", sourceInfo);
+  // console.log("source info", sourceInfo);
 
   if (isSourceModal) {
     return (

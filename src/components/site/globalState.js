@@ -81,6 +81,7 @@ export const visibilityState = atom({
   default: {
     "Study Area": false,
     Rivers: false,
+    "Upstream Places": false,
   },
 });
 
@@ -112,7 +113,7 @@ export const riverRoutesState = selector({
   get: ({ get }) => {
     const rivers = get(riversState);
     const [start, end] = get(yearsState);
-    // console.log(rivers);
+    // // console.log(rivers);
     return rivers.filter((r) => {
       return end > r.properties.yearstart && start < r.properties.yearend;
     });
@@ -133,7 +134,7 @@ export const eventState1 = selector({
   key: "eventState1",
   get: ({ get }) => {
     const ev = get(eventsState);
-    console.log("ev:", ev);
+    // console.log("ev:", ev);
     const newEv = [];
     ev.forEach((e) => {
       const events = e.events;
@@ -166,6 +167,7 @@ export const eventState1 = selector({
       });
       newEv.push({ ...e, events: reducedEvents });
     });
+    // console.log("newEv:", newEv);
     return newEv;
   },
 });
@@ -180,8 +182,8 @@ export const filteredEventsState = selector({
   get: ({ get }) => {
     const ev = get(eventState1);
     // const newEv = get(eventState1);
-    // console.log("ev:", ev);
-    console.log("newEv:", ev);
+    // // console.log("ev:", ev);
+    // console.log("newEv:", ev);
     const [start, end] = get(yearsState);
     const type = get(typesState);
     const type1 = Object.keys(type).filter((t) => type[t]);
@@ -190,7 +192,7 @@ export const filteredEventsState = selector({
       const eventsArray = e.events.filter((d) => {
         // const arr = Object.keys(d);
         if (typeArray.length === 0) {
-          // console.log("d", d.length);
+          // // console.log("d", d.length);
           return end > d[0].en_date_start && start < d[0].en_date_start;
         }
         if (typeArray.length > 0) {
@@ -206,7 +208,7 @@ export const filteredEventsState = selector({
     const filtered = updatedEv.filter((e) => {
       return e.events.length > 0 && e.place_class !== "administrative units";
     });
-    console.log("filtered:", filtered);
+    // console.log("filtered:", filtered);
     return filtered;
   },
 });
@@ -214,10 +216,11 @@ export const filteredEventsState = selector({
 export const groupedEventsState = selector({
   key: "groupedEventsState",
   get: ({ get }) => {
-    const places = get(eventsState);
+    const places = get(eventState1);
     const events = [];
-    places.forEach((p) => events.push(p.events));
+    places.forEach((p) => events.push(...p.events.flat()));
     // events.sort((a, b) => a.en_date_start - b.en_date_start);
+    // console.log("individual events:", events);
     const grouped = Array.from(
       group(events, (d) => d.en_date_start),
       ([key, value]) => ({
@@ -229,7 +232,28 @@ export const groupedEventsState = selector({
     grouped.sort((a, b) => {
       return a.date - b.date;
     });
-    console.log("grouped:", grouped);
+
     return grouped;
+  },
+});
+
+export const upstreamState = atom({
+  key: "upstreamState",
+  default: [],
+});
+
+export const upstreamChoicesState = atom({
+  key: "upstreamChoicesState",
+  default: {},
+});
+
+export const upstreamDataState = selector({
+  key: "upstreamDataState",
+  get: ({ get }) => {
+    const upstream = get(upstreamState);
+    const options = get(upstreamChoicesState);
+    return upstream.filter((d) => {
+      return d.date in options && options[d.date] === true;
+    });
   },
 });

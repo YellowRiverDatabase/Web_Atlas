@@ -31,6 +31,7 @@ import { max, min } from "d3-array";
 import { MyTable } from "../site/Table";
 import { Filter } from "./Filter";
 import "mapbox-gl/dist/mapbox-gl.css";
+import { UpStreamLayer } from "./UpStreamLayer";
 
 function capitalizeWords(string) {
   return string
@@ -52,11 +53,11 @@ export function BaseMap() {
   const [tableHeader, setTableHeader] = useRecoilState(tableHeaderState);
 
   useEffect(() => {
-    console.log(groupedEvents);
+    // console.log(groupedEvents);
   }, [groupedEvents]);
-  // console.log("mapbox access", import.meta.env.VITE_MAPBOX_ACCESS_TOKEN);
+  // // console.log("mapbox access", import.meta.env.VITE_MAPBOX_ACCESS_TOKEN);
 
-  // console.log(studyarea);
+  // // console.log(studyarea);
 
   return (
     <>
@@ -73,14 +74,15 @@ export function BaseMap() {
           Events(),
           RiversLayer(),
           StudyArea(),
+          UpStreamLayer(),
         ]}
         onViewStateChange={(e) => {
           setView(e.viewState);
         }}
         onClick={(e) => {
           if (e.object && e.object.events) {
-            console.log(e.object.events);
-            // console.log(e.object.placepinyin);
+            // console.log(e.object.events);
+            // // console.log(e.object.placepinyin);
             setTableData(e.object.events);
             setTableHeader(capitalizeWords(e.object.ch_pinyin));
             setIsTable(true);
@@ -92,8 +94,8 @@ export function BaseMap() {
               object.properties.yearstart + " - " + object.properties.yearend
             );
           }
-          if (object && !object.properties) {
-            // console.log(object.events);
+          if (object && !object.properties && object.events) {
+            // // console.log(object.events);
             return `${object.ch_pinyin} (${object.ft_id}): ${
               object.events.length
             } events from ${formatDate(
@@ -124,7 +126,7 @@ export function BaseMap() {
       >
         <Map
           reuseMaps
-          mapStyle={"mapbox://styles/nkmwicz123/clsg57t6903gi01p27znh5t4s"}
+          mapStyle={"mapbox://styles/nkmwicz123/clsg5aqky03gr01pb30cmebxd"}
           // mapStyle="mapbox://styles/nkmwicz123/clsg5aqky03gr01pb30cmebxd"
           preventStyleDiffing={true}
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
