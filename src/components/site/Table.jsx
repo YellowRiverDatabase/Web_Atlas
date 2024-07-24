@@ -43,6 +43,7 @@ const tableStyle = {
   border: "1px solid black",
   borderRadius: "10px",
   overflow: "auto",
+  zIndex: 999,
 };
 
 const tableBodyStyle = {
