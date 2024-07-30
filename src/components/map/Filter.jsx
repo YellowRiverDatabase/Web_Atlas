@@ -8,30 +8,36 @@ const filterStyle = {
   flexDirection: "column",
   gap: "1em",
   alignItems: "center",
+  maxHeight: "80vh",
   top: "12%",
   right: "10px",
   zIndex: 2,
-  height: "60vh",
   backgroundColor: "white",
   padding: "10px",
+  paddingBottom: "25px",
   color: "black",
   border: "1px solid black",
   borderRadius: "10px",
 };
 const typesStyle = {
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "row",
   gap: "1em",
-  alignItems: "center",
+  alignItems: "space-between",
   width: "100%",
   overflow: "auto",
+};
+
+const hr = {
+  width: "50%",
 };
 
 const toggleStyle = {
   backgroundColor: "lightgrey",
   color: "black",
   border: "solid black 1px",
-  padding: "5px",
+  fontSize: "1.1em",
+  padding: "10px",
   borderRadius: "5px",
 };
 
@@ -39,8 +45,9 @@ const categoriesBox = {
   display: "flex",
   flexDirection: "row",
   gap: "1em",
-  alignItems: "center",
-  justifyContent: "center",
+  width: "100%",
+  // alignItems: "center",
+  justifyContent: "space-around",
 };
 
 const filterBox = {
@@ -57,7 +64,7 @@ const filterHeaderBtn = {
   position: "absolute",
   top: "10%",
   right: "0",
-  zIndex: "1",
+  zIndex: 1,
   height: "75px",
   // backgroundColor: "rgb(36, 36, 36)",
 };
@@ -76,31 +83,48 @@ const closeBtn = {
   right: "0",
 };
 
+const filterBtnBox = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "5px",
+  justifyContent: "start",
+  // alignItems: "center",
+};
+
+const largerBtn = {
+  padding: "10px",
+  fontSize: "1.5em",
+};
+
 export function Filter() {
   const categories = ["Disasters", "Management"];
   const filterRef = React.useRef();
 
   const [isFilter, setIsFilter] = React.useState(false);
 
-  const types = [
-    "Flood",
-    "Drought",
-    "Intentional Breach",
-    "Risky situation",
-    "Omen",
-    "Course change",
-    "Extinction",
-    "Blockage",
-    "Proposals and Discussion",
-    "Settlement Relocation",
-    "Movement of refugeess",
-    "Dam/Sluice Opening",
-    "Dredging",
-    "Using water for a purpose",
-    "Repair of Structures",
-    "Emergency Repair",
-    "New Construction",
-    "Fieldtrip/survey",
+  const disasterTypes = [
+    ["Flood", "溢"],
+    ["Breach", "決"],
+    ["Drought", "旱"],
+    ["Intentional Breach", "毀"],
+    ["Risky situation", "險"],
+    ["Omen", "兆"],
+    ["Course change", "徙"],
+    ["Extinction", "絕"],
+    ["Blockage", "塞"],
+  ];
+
+  const managementTypes = [
+    ["Proposals and Discussion", "議"],
+    ["Settlement Relocation", "遷"],
+    ["Movement of refugeess", " "],
+    ["Dam/Sluice Opening", "放"],
+    ["Dredging", "疏"],
+    ["Using water for a purpose", "助"],
+    ["Repair of Structures", "修"],
+    ["Emergency Repair", "救"],
+    ["New Construction", "建"],
+    ["Fieldtrip/survey", "探"],
   ];
 
   const filterWidth = filterRef?.current?.offsetWidth;
@@ -156,6 +180,7 @@ export function Filter() {
         ...cats,
         Flood: true,
         Drought: true,
+        Breach: true,
         "Intentional Breach": true,
         "Risky situation": true,
         Omen: true,
@@ -170,6 +195,7 @@ export function Filter() {
         ...cats,
         Flood: false,
         Drought: false,
+        Breach: false,
         "Intentional Breach": false,
         "Risky situation": false,
         Omen: false,
@@ -210,31 +236,54 @@ export function Filter() {
                   : { ...toggleStyle }
               }
             >
-              Disasters
+              Disasters 水災
             </button>
             <button
               type="button"
               onClick={setManagement}
-              style={managementState ? color : null}
+              style={
+                managementState
+                  ? { ...color, ...toggleStyle }
+                  : { ...toggleStyle }
+              }
             >
-              Management
+              Management 水利
             </button>
           </div>
+          <hr style={hr} />
           <div style={typesStyle}>
-            {types.map((type, i) => (
-              <button
-                type="button"
-                id={type}
-                style={cats[type] ? color : null}
-                value={type}
-                key={`type-${i}`}
-                onClick={() => {
-                  setCats({ ...cats, [type]: !cats[type] });
-                }}
-              >
-                {type}
-              </button>
-            ))}
+            <div style={filterBtnBox}>
+              {disasterTypes.map((type, i) => (
+                <button
+                  type="button"
+                  id={type}
+                  style={cats[type[0]] ? color : null}
+                  value={type[0]}
+                  key={`type-${i}`}
+                  onClick={() => {
+                    setCats({ ...cats, [type[0]]: !cats[type[0]] });
+                  }}
+                >
+                  {type[0]} {type[1]}
+                </button>
+              ))}
+            </div>
+            <div style={filterBtnBox}>
+              {managementTypes.map((type, i) => (
+                <button
+                  type="button"
+                  id={type[0]}
+                  style={cats[type[0]] ? color : null}
+                  value={type}
+                  key={`type-${i}`}
+                  onClick={() => {
+                    setCats({ ...cats, [type[0]]: !cats[type[0]] });
+                  }}
+                >
+                  {type[0]} {type[1]}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </>
