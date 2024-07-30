@@ -9,7 +9,7 @@ export function Layers() {
   return (
     <>
       <BtnLayers onClick={() => setIsLayersMenu(!isLayersMenu)} />
-      {isLayersMenu && <LayersMenu />}
+      {/* {isLayersMenu && <LayersMenu />} */}
     </>
   );
 }

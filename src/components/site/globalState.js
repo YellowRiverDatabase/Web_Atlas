@@ -81,7 +81,6 @@ export const visibilityState = atom({
   default: {
     "Study Area": false,
     Rivers: false,
-    "Upstream Places": false,
   },
 });
 

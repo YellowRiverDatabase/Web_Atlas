@@ -7,12 +7,25 @@ import {
 } from "./globalState";
 import { RadioBtn } from "./RadioBtn";
 
+const filtersMenu = {
+  position: "absolute",
+  top: "20%",
+  right: "12px",
+  fontSize: "1em",
+  zIndex: 2,
+  color: "black",
+  backgroundColor: "white",
+  padding: "1em",
+  border: "1px solid black",
+  borderRadius: "5px",
+};
+
 export function LayersMenu() {
   const [isLayersMenu, setIsLayersMenu] = useRecoilState(isLayersMenuState);
   const [visibility, setVisibility] = useRecoilState(visibilityState);
 
   return (
-    <div className="menu-right">
+    <div style={filtersMenu}>
       <div>
         {Object.keys(visibility).map((key) => {
           function handleChange(e) {
@@ -28,16 +41,7 @@ export function LayersMenu() {
             />
           );
         })}
-        {/* <RadioBtn
-          value={"layers"}
-          checked={visibility.oceans}
-          onChange={(e) =>
-            setVisibility({ ...visibility, oceans: e.target.checked })
-          }
-          label={"Oceans"}
-        /> */}
       </div>
-      <button onClick={() => setIsLayersMenu(false)}>Close</button>
     </div>
   );
 }

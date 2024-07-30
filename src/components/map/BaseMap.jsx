@@ -33,6 +33,7 @@ import { Filter } from "./Filter";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { UpStreamLayer } from "./UpStreamLayer";
 import { UpStreamBtn } from "./upStreamBtn";
+import { LayersMenu } from "../site/LayersMenu";
 
 function capitalizeWords(string) {
   return string
@@ -133,7 +134,7 @@ export function BaseMap() {
           mapboxAccessToken={import.meta.env.VITE_MAPBOX_ACCESS_TOKEN}
         />
       </DeckGL>
-      <MyTable /> <Filter /> <UpStreamBtn />
+      <MyTable /> <Filter /> <UpStreamBtn /> <LayersMenu />
     </>
   );
 }
