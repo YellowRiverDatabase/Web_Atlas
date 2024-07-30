@@ -8,6 +8,7 @@ import { LineChart } from "../components/site/LineChart";
 import { useRef } from "react";
 import { ModalSources } from "../components/site/ModalSources";
 import { LegendMap } from "../components/map/LegendMap";
+import { UpStreamBtn } from "../components/map/upStreamBtn";
 export function Home() {
   // const sliderRef = useRef();
   return (
@@ -18,7 +19,6 @@ export function Home() {
         <BaseMap />
         <EntryModal />
       </Main>
-      {/* <TimeSlider /> */}
       <LineChart />
       <ModalSources />
     </>
