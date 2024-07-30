@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { rgbHash } from "./colorHash";
-import { color } from "d3";
 
 const legendBox = {
   position: "absolute",
@@ -17,6 +16,7 @@ const legendBox = {
   maxHeight: "400px",
   overflow: "auto",
   gap: "2px",
+  overflowX: "hidden",
 };
 
 const divStyle = {
@@ -59,8 +59,14 @@ export function LegendMap() {
                 alignItems: "center",
               }}
             >
-              <section style={{ padding: "0", margin: "0" }}>
-                {key} :{" "}
+              <section
+                style={{
+                  padding: "0",
+                  margin: "0",
+                  display: "flex",
+                  gap: "15px",
+                }}
+              >
                 <svg height={20} width={20}>
                   <circle
                     cx={10}
@@ -70,7 +76,8 @@ export function LegendMap() {
                     strokeWidth={1}
                     stroke={"black"}
                   />
-                </svg>
+                </svg>{" "}
+                {key}
               </section>
             </div>
           );
