@@ -12,7 +12,7 @@ const filtersMenu = {
   top: "20%",
   right: "12px",
   fontSize: "1em",
-  zIndex: 2,
+  zIndex: 1,
   color: "black",
   backgroundColor: "white",
   padding: "1em",
