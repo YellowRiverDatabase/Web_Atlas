@@ -32,7 +32,7 @@ export function UpStreamLayer() {
   useEffect(() => {
     const getData = async () => {
       const res = await fetch(
-        "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/upstream-data.json"
+        "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/atlas_data/upstream-data.json"
       );
       const data = await res.json();
       setUpstream(data);

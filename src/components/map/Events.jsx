@@ -12,8 +12,7 @@ export function Events() {
     if (events.length === 0) {
       const fetchData = async () => {
         const res = await fetch(
-          "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-events-with-place-types.json"
-          // "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/relational-datadata/yrdb-places-and-events.json"
+          "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/atlas_data/yrdb-places-events-with-place-types.json"
         );
         const data = await res.json();
         // // console.log(data);
