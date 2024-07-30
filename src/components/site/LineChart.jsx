@@ -247,63 +247,7 @@ export function LineChart() {
       <div style={{ ...slider, width: divWidth + 20, marginBottom: "100px" }}>
         <div style={{ ...leftYears, left: -95 }}>{localYears[0]}</div>
         <div style={{ ...rightYears, right: -95 }}>{localYears[1]}</div>
-        <svg
-          id="radio-buttons"
-          style={{
-            ...radioBtns,
-            width: divWidth + 20,
-            height: "40px",
-            // border: "solid 1px black",
-          }}
-          viewBox={`0 0 ${divWidth + 20} 25`}
-        >
-          {Object.entries(snapShots).map(([key, value], i) => {
-            return (
-              <g key={`${key}`}>
-                <rect
-                  aria-label="checkbox"
-                  aria-checked={value}
-                  onClick={() => handleClick(key)}
-                  height={20}
-                  width={20}
-                  // x={spaceBoxes(key, i, snapShots, x)}
-                  x={spaceBoxesEvenly(key, i, snapShots, divWidth + 20)}
-                  y={7}
-                  stroke="black"
-                  strokeLinecap="round"
-                  strokeWidth={3}
-                  fill={"white"}
-                  rx={3}
-                  cursor={"pointer"}
-                />
-                {value && (
-                  <text
-                    onClick={() => handleClick(key)}
-                    stroke={"black"}
-                    fontWeight={"bold"}
-                    // x={x(key) - 10.5}
-                    x={spaceBoxesEvenly(key, i, snapShots, divWidth + 20) + 4}
-                    // x={spaceBoxes(key, i, snapShots, x) + 4}
-                    y={22}
-                    aria-hidden="true"
-                    cursor={"pointer"}
-                  >
-                    X
-                  </text>
-                )}
-                <text
-                  aria-hidden="true"
-                  // x={x(key) - 25}
-                  // x={spaceBoxes(key, i, snapShots, x) - 25}
-                  x={spaceBoxesEvenly(key, i, snapShots, divWidth + 20) - 5}
-                  y={5}
-                >
-                  {key}
-                </text>
-              </g>
-            );
-          })}
-        </svg>
+
         <svg
           style={{
             ...svg,
