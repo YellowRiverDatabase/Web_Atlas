@@ -17,6 +17,18 @@ export function NavMenu() {
       path: "/about",
     },
     {
+      name: "DB Build Instructions",
+      path: "/how-to-build",
+    },
+    {
+      name: "DB Description",
+      path: "/db-description",
+    },
+    {
+      name: "Database History",
+      path: "db-history",
+    },
+    {
       name: "Contact",
       path: "/contact",
     },
