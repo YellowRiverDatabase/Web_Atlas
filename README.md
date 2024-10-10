@@ -9,8 +9,8 @@ A simple web atlas representing the data from the Yellow River Database.
 # To Do
 
 - [ ] style upstream data
-- [ ] remove upstream places from layers button
+- [x] remove upstream places from layers button
 - [ ] Info on the blurb makes it togglable.
-- [ ] Remake the dataset.
+- [x] Remake the dataset.
 - [ ] create pages from markdown
   - [ ] use markdown-to-jsx
