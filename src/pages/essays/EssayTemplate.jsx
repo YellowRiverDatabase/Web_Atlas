@@ -15,8 +15,7 @@ export function EssayTemplate({ children }) {
         style={{
           display: "flex",
           flexDirection: "row",
-          width: "50vw",
-          maxWidth: "520px",
+          maxWidth: "620px",
           height: "100%",
           backgroundColor: "lightgrey",
           color: "black",

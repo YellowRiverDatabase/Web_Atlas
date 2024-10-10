@@ -2,13 +2,14 @@ import { Route, Routes } from "react-router";
 import { Home } from "../pages/Home";
 import { MkDownTemplate } from "../pages/essays/MkDownTemplate";
 import { Contributors } from "../pages/essays/Contributors";
+import { Page404 } from "../pages/Page404";
 
 export function Router() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route
-        path="db-history"
+        path="/db-history"
         element={
           <MkDownTemplate
             url={
@@ -18,7 +19,7 @@ export function Router() {
         }
       />
       <Route
-        path="db-description"
+        path="/db-description"
         element={
           <MkDownTemplate
             url={
@@ -28,7 +29,7 @@ export function Router() {
         }
       />
       <Route
-        path="how-to-build"
+        path="/how-to-build"
         element={
           <MkDownTemplate
             url={
@@ -37,8 +38,8 @@ export function Router() {
           />
         }
       />
-      <Route path="/contributors" element={<Contributors />} />
-      <Route path="*" element={<p>Sorry 404</p>} />
+      <Route path="/about-us" element={<Contributors />} />
+      <Route path="*" element={<Page404 />} />
     </Routes>
   );
 }

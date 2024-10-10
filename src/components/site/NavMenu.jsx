@@ -13,8 +13,8 @@ export function NavMenu() {
       path: "/",
     },
     {
-      name: "About",
-      path: "/about",
+      name: "About Us",
+      path: "/about-us",
     },
     {
       name: "DB Build Instructions",
@@ -26,11 +26,7 @@ export function NavMenu() {
     },
     {
       name: "Database History",
-      path: "db-history",
-    },
-    {
-      name: "Contact",
-      path: "/contact",
+      path: "/db-history",
     },
   ];
 

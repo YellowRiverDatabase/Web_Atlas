@@ -11,7 +11,7 @@ export function MkDownTemplate({ url }) {
       setMkddown(json);
     };
     getMarkDown();
-  }, []);
+  }, [url]);
   return (
     <div>
       <EssayTemplate>
