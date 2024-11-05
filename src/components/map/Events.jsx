@@ -12,7 +12,7 @@ export function Events() {
     if (events.length === 0) {
       const fetchData = async () => {
         const res = await fetch(
-          "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/main/atlas_data/yrdb-places-events-with-place-types.json"
+          "https://raw.githubusercontent.com/YellowRiverDatabase/geodata/refs/heads/main/atlas_data/yrdb-places-and-events.json"
         );
         const data = await res.json();
         // // console.log(data);
@@ -21,6 +21,10 @@ export function Events() {
       fetchData();
     }
   }, []);
+
+  useEffect(() => {
+    console.log(events);
+  }, [events]);
 
   const setFillColor = (data1) => {
     const data = data1.flat().map((d) => Array.from(d.en_type)); // flatten the array and convert Set to Array
@@ -52,7 +56,7 @@ export function Events() {
         // // console.log("from the events", d.events);
         return 300 * d.events.length;
       },
-      getPosition: (d) => [d.lon, d.lat],
+      getPosition: (d) => [d.Latitude, d.Longitude],
       getRadius: (d) => 1500,
       getFillColor: (d) => {
         return setFillColor(d.events);
