@@ -2,6 +2,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { isSourceModalState, sourceModalInfoState } from "./globalState";
 import { formatDate } from "../map/formatDate";
 import { max, text } from "d3";
+import { colorHash } from "../map/colorHash";
 
 const spanStyle = {
   // make at the bottom of modal
@@ -47,6 +48,7 @@ const header = {
 
 const tableStyle = {
   border: "1px solid black",
+  backgroundColor: "azure",
   borderRadius: "10px",
 };
 
@@ -57,34 +59,45 @@ const trStyle = {
 export function ModalSources({ sources, onClose }) {
   const [isSourceModal, setIsSourceModal] = useRecoilState(isSourceModalState);
   const sourceInfo = useRecoilValue(sourceModalInfoState);
+  console.log("sourceInfo", Array.from(sourceInfo.en_type)[0]);
 
   // console.log("source info", sourceInfo);
 
   if (isSourceModal) {
+    const colorArray = colorHash[Array.from(sourceInfo.en_type)[0]];
     return (
       <div style={modalBkg} onClick={() => setIsSourceModal(false)}>
-        <div style={modal}>
-          <div style={header}>
-            <h2>
-              {sourceInfo.place}
-              <br />({formatDate(sourceInfo.en_date_start)})
-            </h2>
-            <table style={tableStyle}>
-              <tr style={trStyle}>
-                <td>Category: </td>
-                <td>{Array.from(sourceInfo.en_cat).join(", ")}</td>
-              </tr>
-              <tr style={trStyle}>
-                <td>Type:</td>
-                <td>{Array.from(sourceInfo.en_type).join(", ")}</td>
-              </tr>
-              <tr style={trStyle}>
-                <td>Source:</td>
-                <td>{Array.from(sourceInfo.source).join(", ")}</td>
-              </tr>
-            </table>
+        <div
+          style={{
+            ...modal,
+            backgroundColor: `rgba(${colorArray[0]}, ${colorArray[1]}, ${colorArray[2]}, 0.8`,
+          }}
+        >
+          <div style={modal}>
+            <div style={header}>
+              <h2>
+                {sourceInfo.place}
+                <br />({formatDate(sourceInfo.en_date_start)})
+              </h2>
+              <table style={tableStyle}>
+                <tbody>
+                  <tr style={trStyle}>
+                    <td style={{ textAlign: "start" }}>Category: </td>
+                    <td>{Array.from(sourceInfo.en_cat).join(", ")}</td>
+                  </tr>
+                  <tr style={trStyle}>
+                    <td>Type:</td>
+                    <td>{Array.from(sourceInfo.en_type).join(", ")}</td>
+                  </tr>
+                  <tr style={trStyle}>
+                    <td>Description:</td>
+                    <td>{Array.from(sourceInfo.source).join(", ")}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <span style={spanStyle}>* Click anywhere to close.</span>
           </div>
-          <span style={spanStyle}>* Click anywhere to close.</span>
         </div>
       </div>
     );
