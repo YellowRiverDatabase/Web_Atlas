@@ -15,7 +15,6 @@ export function Home() {
     <>
       <MapPeripheralComponents />
       <Main>
-        <LegendMap />
         <BaseMap />
         <EntryModal />
       </Main>
