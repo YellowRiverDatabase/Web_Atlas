@@ -1,7 +1,11 @@
 import { useRecoilValue } from "recoil";
 import { isEntryModalState } from "./globalState";
-import { Nav } from "./Nav";
+// import { Nav } from "./Nav";
 import { Layers } from "./Layers";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 export function Header() {
   const isEntryModal = useRecoilValue(isEntryModalState);
   const styledWrapperStyle = {

@@ -9,7 +9,7 @@ const location = {
   border: "1px solid black",
   alignSelf: "end",
 
-  // borderRadius: "10px",
+  borderRadius: "5px",
 };
 
 const box = {
@@ -29,6 +29,8 @@ const box = {
 };
 
 const titleLine = {
+  width: "100%",
+  position: "relative",
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
@@ -99,8 +101,14 @@ export function UpStreamBtn() {
     return (
       <div style={box}>
         <div style={titleLine}>
+          <div></div>
           <section>Upstream locations by Year</section>
-          <button onClick={() => setIsOpen(false)}>&times;</button>
+          <button
+            style={{ borderRadius: "5px", border: "solid black 1px" }}
+            onClick={() => setIsOpen(false)}
+          >
+            &times;
+          </button>
         </div>
         <div style={valuesBox}>
           {Object.entries(snapShots).map(([key, value], i) => {

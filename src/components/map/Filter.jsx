@@ -1,6 +1,8 @@
 import { useRecoilState } from "recoil";
 import { typesState } from "../site/globalState";
 import React, { useEffect } from "react";
+import { rgbHash } from "./colorHash";
+import { rgb } from "d3";
 
 const filterStyle = {
   display: "flex",
@@ -68,6 +70,7 @@ const buttonStyle = {
   color: "black",
   border: "solid black 1px",
   padding: "5px",
+  borderRadius: "5px",
 };
 
 const closeBtn = {
@@ -106,14 +109,11 @@ export function Filter() {
     ["Risky situation", "險"],
     ["Omen", "兆"],
     ["Course change", "徙"],
-    ["Extinction", "絕"],
-    ["Blockage", "塞"],
   ];
 
   const managementTypes = [
     ["Proposals and Discussion", "議"],
     ["Settlement Relocation", "遷"],
-    ["Movement of refugeess", " "],
     ["Dam/Sluice Opening", "放"],
     ["Dredging", "疏"],
     ["Using water for a purpose", "助"],
@@ -224,7 +224,11 @@ export function Filter() {
             }}
           >
             <h3 style={{ flex: 1, textAlign: "center" }}>Filter Types</h3>
-            <button style={closeBtn} onClick={openfilter}>
+            <button
+              style={closeBtn}
+              className="rounded border-dark"
+              onClick={openfilter}
+            >
               <strong>&times;</strong>
             </button>
           </div>
@@ -246,7 +250,7 @@ export function Filter() {
               onClick={setManagement}
               style={
                 managementState
-                  ? { ...color, ...toggleStyle }
+                  ? { ...toggleStyle, ...color }
                   : { ...toggleStyle }
               }
             >
@@ -256,27 +260,40 @@ export function Filter() {
           <hr style={hr} />
           <div style={typesStyle}>
             <div style={filterBtnBox}>
-              {disasterTypes.map((type, i) => (
-                <button
-                  type="button"
-                  id={type}
-                  style={cats[type[0]] ? color : null}
-                  value={type[0]}
-                  key={`type-${i}`}
-                  onClick={() => {
-                    setCats({ ...cats, [type[0]]: !cats[type[0]] });
-                  }}
-                >
-                  {type[0]} {type[1]}
-                </button>
-              ))}
+              {disasterTypes.map((type, i) => {
+                console.log(type.join(" "));
+                return (
+                  <button
+                    type="button"
+                    id={type}
+                    style={
+                      cats[type[0]]
+                        ? { backgroundColor: rgbHash[type.join(" ")] }
+                        : null
+                    }
+                    className="border-dark rounded"
+                    value={type[0]}
+                    key={`type-${i}`}
+                    onClick={() => {
+                      setCats({ ...cats, [type[0]]: !cats[type[0]] });
+                    }}
+                  >
+                    {type[0]} {type[1]}
+                  </button>
+                );
+              })}
             </div>
             <div style={filterBtnBox}>
               {managementTypes.map((type, i) => (
                 <button
                   type="button"
                   id={type[0]}
-                  style={cats[type[0]] ? color : null}
+                  style={
+                    cats[type[0]]
+                      ? { backgroundColor: rgbHash[type.join(" ")] }
+                      : null
+                  }
+                  className="border-dark rounded"
                   value={type}
                   key={`type-${i}`}
                   onClick={() => {

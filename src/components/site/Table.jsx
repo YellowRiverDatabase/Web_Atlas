@@ -39,7 +39,7 @@ const tableStyle = {
   justifyContent: "center",
   alignItems: "center",
   maxHeight: "65vh",
-  padding: "1em",
+  padding: "2em",
   border: "1px solid black",
   borderRadius: "10px",
   overflow: "auto",
@@ -72,8 +72,8 @@ const closeButtonStyle = {
   top: "10px",
   cursor: "pointer",
   border: "1px solid black",
-  padding: "0.5em",
-  borderRadius: "10px",
+  padding: "5px",
+  borderRadius: "5px",
   backgroundColor: "lightgray",
 };
 
@@ -98,7 +98,7 @@ export function MyTable() {
         <div style={headerStyle}>
           <h1>{tableHeader}</h1>
           <div style={closeButtonStyle} onClick={() => setIsTable(false)}>
-            X
+            &times;
           </div>
         </div>
         <table style={tableBodyStyle}>

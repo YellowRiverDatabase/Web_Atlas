@@ -38,6 +38,7 @@ const modal = {
 };
 
 const header = {
+  position: "relative",
   display: "flex",
   textAlign: "center",
   flexDirection: "column",
@@ -65,7 +66,7 @@ export function ModalSources({ sources, onClose }) {
   if (isSourceModal) {
     const colorArray = colorHash[Array.from(sourceInfo.en_type)[0]];
     return (
-      <div style={modalBkg} onClick={() => setIsSourceModal(false)}>
+      <div style={modalBkg}>
         <div
           style={{
             ...modal,
@@ -78,6 +79,21 @@ export function ModalSources({ sources, onClose }) {
                 {sourceInfo.place}
                 <br />({formatDate(sourceInfo.en_date_start)})
               </h2>
+              <button
+                style={{
+                  position: "absolute",
+                  top: "0px",
+                  right: "0px",
+                  cursor: "pointer",
+                  border: "1px solid black",
+                  padding: "5px",
+                  borderRadius: "5px",
+                  backgroundColor: "lightgray",
+                }}
+                onClick={() => setIsSourceModal(false)}
+              >
+                &times;
+              </button>
               <table style={tableStyle}>
                 <tbody>
                   <tr style={trStyle}>
@@ -85,17 +101,16 @@ export function ModalSources({ sources, onClose }) {
                     <td>{Array.from(sourceInfo.en_cat).join(", ")}</td>
                   </tr>
                   <tr style={trStyle}>
-                    <td>Type:</td>
+                    <td style={{ textAlign: "start" }}>Type:</td>
                     <td>{Array.from(sourceInfo.en_type).join(", ")}</td>
                   </tr>
                   <tr style={trStyle}>
-                    <td>Description:</td>
+                    <td style={{ textAlign: "start" }}>Description:</td>
                     <td>{Array.from(sourceInfo.source).join(", ")}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <span style={spanStyle}>* Click anywhere to close.</span>
           </div>
         </div>
       </div>

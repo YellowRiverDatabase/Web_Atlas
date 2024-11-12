@@ -79,6 +79,7 @@ export function EntryModal() {
   const modalButtonStyle = {
     width: "20%",
     minWidth: "75px",
+    borderRadius: "5px",
   };
 
   const blackPStyle = {
@@ -107,7 +108,7 @@ export function EntryModal() {
                 description.
               </p>
             </section>
-            <button style={modalButtonStyle} onClick={closeModal}>
+            <button style={modalButtonStyle} className="" onClick={closeModal}>
               {windowWidth > 500 ? "Close" : "Go to Web Atlas"}
             </button>
           </div>

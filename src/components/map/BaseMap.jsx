@@ -85,7 +85,9 @@ export function BaseMap() {
             // console.log(e.object.events);
             // // console.log(e.object.placepinyin);
             setTableData(e.object.events);
-            setTableHeader(capitalizeWords(e.object.ch_pinyin));
+            setTableHeader(
+              `${capitalizeWords(e.object.ch_pinyin)} ${e.object.tr_title}`
+            );
             setIsTable(true);
           }
         }}

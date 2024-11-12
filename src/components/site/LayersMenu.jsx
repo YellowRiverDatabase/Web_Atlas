@@ -14,8 +14,7 @@ const filtersMenu = {
   padding: "10px",
   border: "1px solid black",
   borderRadius: "5px",
-  width: "125px",
-  marginRight: "18px",
+  width: "150px",
   alignSelf: "end",
 };
 
