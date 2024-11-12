@@ -2,11 +2,8 @@ import { useState } from "react";
 import { rgbHash } from "./colorHash";
 
 const legendBox = {
-  position: "absolute",
-  top: "100px",
   display: "flex",
   flexDirection: "column",
-  margin: "0 5px",
   border: "1px solid black",
   borderRadius: "5px",
   zIndex: 999,
@@ -16,6 +13,7 @@ const legendBox = {
   maxHeight: "400px",
   overflow: "auto",
   gap: "2px",
+  pointerEvents: "auto",
   overflowX: "hidden",
 };
 
@@ -87,7 +85,7 @@ export function LegendMap() {
   }
   return (
     <button
-      style={legendBox}
+      style={{ ...legendBox, height: "50px" }}
       onClick={() => {
         setIsOpen(true);
       }}

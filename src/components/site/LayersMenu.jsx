@@ -8,16 +8,15 @@ import {
 import { RadioBtn } from "./RadioBtn";
 
 const filtersMenu = {
-  position: "absolute",
-  top: "20%",
-  right: "12px",
-  fontSize: "1em",
   zIndex: 1,
   color: "black",
   backgroundColor: "white",
-  padding: "1em",
+  padding: "10px",
   border: "1px solid black",
   borderRadius: "5px",
+  width: "125px",
+  marginRight: "18px",
+  alignSelf: "end",
 };
 
 export function LayersMenu() {

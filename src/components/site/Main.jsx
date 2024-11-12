@@ -5,6 +5,7 @@ export function Main({ children }) {
     width: "100vw",
     margin: 0,
     padding: 0,
+    zIndex: 1,
   };
   return <div style={MainDiv}>{children}</div>;
 }

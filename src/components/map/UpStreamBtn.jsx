@@ -3,19 +3,16 @@ import { upstreamChoicesState } from "../site/globalState";
 import { useRecoilState } from "recoil";
 
 const location = {
-  position: "absolute",
-  top: "16%",
-  right: "-2px",
   zIndex: 1,
+  width: "125px",
   backgroundColor: "white",
   border: "1px solid black",
+  alignSelf: "end",
+
   // borderRadius: "10px",
 };
 
 const box = {
-  position: "absolute",
-  top: "11%",
-  right: "10px",
   display: "flex",
   flexDirection: "column",
   gap: "1em",

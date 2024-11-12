@@ -8,13 +8,13 @@ import { LineChart } from "../components/site/LineChart";
 import { useRef } from "react";
 import { ModalSources } from "../components/site/ModalSources";
 import { LegendMap } from "../components/map/LegendMap";
-import { UpStreamBtn } from "../components/map/upStreamBtn";
+import { MapPeripheralComponents } from "../components/site/MapPeripheralComponents";
 export function Home() {
   // const sliderRef = useRef();
   return (
     <>
+      <MapPeripheralComponents />
       <Main>
-        <Header />
         <LegendMap />
         <BaseMap />
         <EntryModal />

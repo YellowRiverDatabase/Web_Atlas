@@ -13,7 +13,7 @@ export function Header() {
     width: "100%",
     backgroundColor: "#242424",
     borderBottom: "1px solid grey",
-    zIndex: 100,
+    zIndex: 3,
   };
   return (
     <>

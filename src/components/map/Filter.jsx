@@ -3,7 +3,6 @@ import { typesState } from "../site/globalState";
 import React, { useEffect } from "react";
 
 const filterStyle = {
-  position: "absolute",
   display: "flex",
   flexDirection: "column",
   gap: "1em",
@@ -61,12 +60,7 @@ const color = {
 };
 
 const filterHeaderBtn = {
-  position: "absolute",
-  top: "10%",
-  right: "0",
-  zIndex: 1,
-  height: "75px",
-  // backgroundColor: "rgb(36, 36, 36)",
+  alignSelf: "flex-end",
 };
 
 const buttonStyle = {
@@ -74,13 +68,15 @@ const buttonStyle = {
   color: "black",
   border: "solid black 1px",
   padding: "5px",
-  margin: "15px",
 };
 
 const closeBtn = {
+  height: "25px",
+  width: "25px",
+  justifySelf: "end",
   position: "absolute",
-  top: "10px",
-  right: "0",
+  right: "0px",
+  top: "0px",
 };
 
 const filterBtnBox = {
@@ -219,12 +215,19 @@ export function Filter() {
     return (
       <>
         <div style={filterStyle} ref={filterRef}>
-          <div>
-            <h3 onClick={openfilter}>Filter Types</h3>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              position: "relative",
+            }}
+          >
+            <h3 style={{ flex: 1, textAlign: "center" }}>Filter Types</h3>
+            <button style={closeBtn} onClick={openfilter}>
+              <strong>&times;</strong>
+            </button>
           </div>
-          <button style={closeBtn} onClick={openfilter}>
-            <strong>&times;</strong>
-          </button>
           <div style={categoriesBox}>
             <button
               type="button"

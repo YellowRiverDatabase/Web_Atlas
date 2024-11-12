@@ -59,7 +59,6 @@ const trStyle = {
 export function ModalSources({ sources, onClose }) {
   const [isSourceModal, setIsSourceModal] = useRecoilState(isSourceModalState);
   const sourceInfo = useRecoilValue(sourceModalInfoState);
-  console.log("sourceInfo", Array.from(sourceInfo.en_type)[0]);
 
   // console.log("source info", sourceInfo);
 
