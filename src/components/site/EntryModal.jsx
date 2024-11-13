@@ -55,6 +55,7 @@ export function EntryModal() {
     width: "100%",
     height: "100%",
     border: "none",
+    zIndex: 999,
     justifyContent: "space-between",
   };
 

@@ -17,7 +17,7 @@ const lineChartBox = {
   left: 0,
   width: "100vw",
   height: "200px",
-  zIndex: 999,
+  zIndex: 5,
   // padding: "0 10px",
 };
 

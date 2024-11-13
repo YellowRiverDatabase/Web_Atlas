@@ -13,7 +13,7 @@ export function Contributors() {
     {
       name: "Ruth Mostern",
       url: "https://www.history.pitt.edu/sites/default/files/person-images/May%202023%20Mostern%20headshot%20cropped%20%281%29.jpeg",
-      description: "",
+      description: "Project Manager",
     },
     {
       name: "Nathan Michalewicz",
@@ -22,7 +22,7 @@ export function Contributors() {
     },
     {
       name: "Ryan Horne",
-      url: "",
+      url: "/ryanhorne.jpg",
       description: "",
     },
     {
@@ -40,8 +40,6 @@ export function Contributors() {
           width: "100vw",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          alignContent: "center",
           gap: "2em",
         }}
       >

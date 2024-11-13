@@ -40,6 +40,7 @@ export function LegendMap() {
               width: "25px",
               height: "25px",
             }}
+            className="rounded border-dark"
             onClick={() => {
               setIsOpen(false);
             }}
